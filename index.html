@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; script-src 'self' 'unsafe-inline';" />
+    <meta name="referrer" content="no-referrer" />
+    <link rel="icon" type="image/png" href="/ravana_logo.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ravana | Premium App Hub</title>
+    <meta name="description" content="Ravana - The ultimate hub for downloading FoodLens, PsiRa, and more. Direct APK downloads for high-fidelity applications." />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <div id="app">
+      <nav class="navbar">
+        <div class="logo">
+          <img src="/ravana_logo.png" alt="Ravana Logo" class="logo-img" />
+          <span class="logo-text">Ravana <span class="hub-tag">Hub</span></span>
+        </div>
+        <div class="nav-links">
+          <a href="#apps">Applications</a>
+          <a href="#about">About</a>
+          <a href="#apps" class="btn-primary mini">Download Now</a>
+        </div>
+      </nav>
+
+      <section class="hero">
+        <div class="hero-content">
+          <h1 class="reveal"><span class="gradient-text">Ravana</span> Hub</h1>
+          <p class="reveal delay-1">Direct access to premium applications. High-performance, secure, and ready for deployment.</p>
+          <div class="hero-btns reveal delay-2">
+            <a href="#apps" class="btn-primary ripple">Browse Apps</a>
+            <a href="#about" class="btn-secondary">Learn More</a>
+          </div>
+        </div>
+        <div class="hero-visual reveal delay-3">
+           <img src="/ravana_logo.png" alt="Ravana Logo Large" class="hero-logo-large" />
+        </div>
+      </section>
+
+      <section id="apps" class="apps-section">
+        <h2 class="section-title reveal scroll">Our Applications</h2>
+        <div class="apps-grid">
+          <!-- FoodLens Card -->
+          <div class="app-card reveal scroll">
+            <div class="app-visual">
+              <img src="/foodlens.png" alt="FoodLens Mockup" />
+            </div>
+            <div class="app-info">
+              <span class="category">Health & AI</span>
+              <h3>FoodLens</h3>
+              <p>Advanced food analysis and nutrition tracking with AI precision. Premium health companion.</p>
+              <div class="app-stats">
+                <span>V1.2.4</span> • <span>34MB</span> • <span>Updated: Mar 27, 2026</span>
+              </div>
+              <div class="checksum-info">
+                <strong>SHA-256:</strong> <code>1435BBFD2390E0277B6CB7587000385E7782281B2B642B599679FC087D1D150A</code>
+              </div>
+              <a href="/foodlens.apk" download class="btn-download">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Download APK
+              </a>
+            </div>
+          </div>
+
+          <!-- PsiRa Card -->
+          <div class="app-card reveal scroll delay-1">
+            <div class="app-visual">
+              <img src="/psira.png" alt="PsiRa Mockup" />
+            </div>
+            <div class="app-info">
+              <span class="category">Stealth & Security</span>
+              <h3>PsiRa</h3>
+              <p>Highly secure, stealth-focused communication app with Spectre Node integration.</p>
+              <div class="app-stats">
+                <span>V2.1.0</span> • <span>47MB</span> • <span>Updated: Mar 27, 2026</span>
+              </div>
+              <div class="checksum-info">
+                <strong>SHA-256:</strong> <code>ED00CF9B3A65E6911022922FF8EDAD07596E9EBB580A34EFA8334C31833D7828</code>
+              </div>
+              <a href="/psira.apk" download class="btn-download secondary">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Download APK
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="about" class="about-section">
+        <div class="about-content reveal scroll">
+          <h2 class="section-title">About Ravana Hub</h2>
+          <p class="about-text">
+            Ravana Hub is a premium distribution platform for cutting-edge mobile applications. 
+            We provide direct access to high-fidelity APKs for FoodLens, PsiRa, and other elite software tools.
+          </p>
+
+          <div class="guide-container reveal scroll delay-1">
+            <h3>How to Install APKs</h3>
+            <ol class="guide-list">
+              <li><strong>Download:</strong> Click the "Download APK" button for your desired app.</li>
+              <li><strong>Allow Sources:</strong> Go to Settings > Security and enable <em>"Install from Unknown Sources"</em>.</li>
+              <li><strong>Install:</strong> Open the downloaded file from your notifications or file manager.</li>
+              <li><strong>Verify:</strong> Compare the SHA-256 checksum to ensure file integrity.</li>
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <div class="footer-content">
+          <div class="footer-logo">Ravana Hub</div>
+          <div class="socials">
+            <a href="mailto:ravana200629@gmail.com" rel="noopener noreferrer">Support: ravana200629@gmail.com</a>
+            <a href="#" rel="noopener noreferrer">Terms</a>
+            <a href="#" rel="noopener noreferrer">Privacy</a>
+          </div>
+        </div>
+        <div class="legal-disclaimer">
+          <p><strong>Disclaimer:</strong> Ravana Hub is a distribution platform. We are not the official developers of the shared applications. All trademarks belong to their respective owners. Use these applications at your own discretion. We recommend verifying checksums and scanning with VirusTotal before installation.</p>
+        </div>
+        <p class="copyright">&copy; 2026 Ravana Inc. All rights reserved.</p>
+      </footer>
+    </div>
+    <script type="module" src="/main.js"></script>
+  </body>
+</html>
