@@ -1,130 +1,196 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; script-src 'self' 'unsafe-inline';" />
-    <meta name="referrer" content="no-referrer" />
-    <link rel="icon" type="image/png" href="/ravana_logo.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Ravana | Premium App Hub</title>
-    <meta name="description" content="Ravana - The ultimate hub for downloading FoodLens, PsiRa, and more. Direct APK downloads for high-fidelity applications." />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/style.css" />
-  </head>
-  <body>
-    <div id="app">
-      <nav class="navbar">
-        <div class="logo">
-          <img src="/ravana_logo.png" alt="Ravana Logo" class="logo-img" />
-          <span class="logo-text">Ravana <span class="hub-tag">Hub</span></span>
-        </div>
-        <div class="nav-links">
-          <a href="#apps">Applications</a>
-          <a href="#about">About</a>
-          <a href="#apps" class="btn-primary mini">Download Now</a>
-        </div>
-      </nav>
 
-      <section class="hero">
-        <div class="hero-content">
-          <h1 class="reveal"><span class="gradient-text">Ravana</span> Hub</h1>
-          <p class="reveal delay-1">Direct access to premium applications. High-performance, secure, and ready for deployment.</p>
-          <div class="hero-btns reveal delay-2">
-            <a href="#apps" class="btn-primary ripple">Browse Apps</a>
-            <a href="#about" class="btn-secondary">Learn More</a>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="Content-Security-Policy"
+    content="upgrade-insecure-requests; default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob: https://images.unsplash.com; script-src 'self' 'unsafe-inline' 'unsafe-eval';" />
+  <meta name="referrer" content="no-referrer" />
+  <link rel="icon" type="image/png" href="/ravana_logo.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PRIME X | Malevolent Domain</title>
+  <meta name="description"
+    content="PRIME X - Ryomen Sukuna's Absolute Domain. The ultimate hub for AuraMax-Zenith, FoodLens, and PsiRa." />
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://primex.domain/" />
+  <meta property="og:title" content="PRIME X | Malevolent Domain" />
+  <meta property="og:description" content="Ryomen Sukuna's Absolute Domain. High-fidelity applications governed by superior AI." />
+  <meta property="og:image" content="/screenshot.png" />
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:title" content="PRIME X | Malevolent Domain" />
+  <meta property="twitter:description" content="Ryomen Sukuna's Absolute Domain. High-fidelity applications governed by superior AI." />
+  <meta property="twitter:image" content="/screenshot.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css" />
+</head>
+
+<body>
+  <!-- 3D Background Canvas -->
+  <canvas id="three-canvas"></canvas>
+
+  <div id="app">
+    <nav class="navbar">
+      <div class="logo">
+        <img src="/prime_x_logo.png" alt="PRIME X Logo" class="main-logo-img" />
+      </div>
+      <div class="nav-links">
+        <a href="#apps">Domain</a>
+        <a href="#about">Philosophy</a>
+        <a href="#apps" class="btn-primary mini">Conquer</a>
+      </div>
+    </nav>
+
+    <section class="hero">
+      <div class="hero-content">
+        <div class="true-form-trigger reveal" id="reveal-true-form">
+          <span class="icon"></span>
+          <span>Reveal True Form</span>
+        </div>
+        <h1 class="reveal"><span class="gradient-text-alt">MALEVOLENT</span> PRIME</h1>
+        <p class="reveal delay-1">Step into the absolute domain. Thousands of invisible slashes, one perfect experience.
+          High-fidelity applications governed by superior AI.</p>
+        <div class="hero-btns reveal delay-2">
+          <a href="#apps" class="btn-primary ripple">Expand Domain</a>
+          <a href="#about" class="btn-secondary">Binding Vow</a>
+        </div>
+      </div>
+      <div class="hero-visual reveal delay-3">
+        <div id="hero-3d-container"></div>
+      </div>
+    </section>
+
+    <section id="apps" class="apps-section">
+      <h2 class="section-title reveal scroll">The Pantheon of Apps</h2>
+      <div class="apps-grid">
+        <!-- AuraMax-Zenith Card -->
+        <div class="app-card reveal scroll featured">
+          <div class="app-visual">
+            <img src="/auramax.png" alt="AuraMax-Zenith Logo" />
+            <div class="featured-badge">CURSED</div>
           </div>
-        </div>
-        <div class="hero-visual reveal delay-3">
-           <img src="/ravana_logo.png" alt="Ravana Logo Large" class="hero-logo-large" />
-        </div>
-      </section>
-
-      <section id="apps" class="apps-section">
-        <h2 class="section-title reveal scroll">Our Applications</h2>
-        <div class="apps-grid">
-          <!-- FoodLens Card -->
-          <div class="app-card reveal scroll">
-            <div class="app-visual">
-              <img src="/foodlens.png" alt="FoodLens Mockup" />
+          <div class="app-info">
+            <span class="category">AI Beauty & Vision</span>
+            <h3>AuraMax-Zenith</h3>
+            <p>The ultimate facial analysis tool. Features refined gender-based scan workflows and advanced aesthetic diagnostics powered by Nvidia AI.</p>
+            <div class="app-stats">
+              <span>V1.1.0</span> • <span>60MB</span> • <span>Updated: Apr 15, 2026</span>
             </div>
-            <div class="app-info">
-              <span class="category">Health & AI</span>
-              <h3>FoodLens</h3>
-              <p>Advanced food analysis and nutrition tracking with AI precision. Premium health companion.</p>
-              <div class="app-stats">
-                <span>V1.2.4</span> • <span>34MB</span> • <span>Updated: Mar 27, 2026</span>
-              </div>
-              <div class="checksum-info">
-                <strong>SHA-256:</strong> <code>1435BBFD2390E0277B6CB7587000385E7782281B2B642B599679FC087D1D150A</code>
-              </div>
-              <a href="/foodlens.apk" download class="btn-download">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                Download APK
-              </a>
+            <div class="checksum-info">
+              <strong>SHA-256:</strong> <code>2396E613678A9985BBA20FFF5262ABB3AC1DE3CB5934EFCB2F37D8F1177C6FDE</code>
             </div>
+            <a href="/AuraMax-Zenith.apk" download class="btn-download featured-btn">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="7 10 12 15 17 10" />
+                <line x1="12" y1="15" x2="12" y2="3" />
+              </svg>
+              Download APK
+            </a>
           </div>
+        </div>
 
-          <!-- PsiRa Card -->
-          <div class="app-card reveal scroll delay-1">
-            <div class="app-visual">
-              <img src="/psira.png" alt="PsiRa Mockup" />
+        <!-- FoodLens Card -->
+        <div class="app-card reveal scroll delay-1">
+          <div class="app-visual">
+            <img src="/foodlens.png" alt="FoodLens Mockup" />
+          </div>
+          <div class="app-info">
+            <span class="category">Health & AI</span>
+            <h3>FoodLens</h3>
+            <p>Advanced nutrition tracking. Refine your physical vessel with AI precision. Premium health companion.</p>
+            <div class="app-stats">
+              <span>V1.3.0</span> • <span>96MB</span> • <span>Updated: Apr 15, 2026</span>
             </div>
-            <div class="app-info">
-              <span class="category">Stealth & Security</span>
-              <h3>PsiRa</h3>
-              <p>Highly secure, stealth-focused communication app with Spectre Node integration.</p>
-              <div class="app-stats">
-                <span>V2.1.0</span> • <span>47MB</span> • <span>Updated: Mar 27, 2026</span>
-              </div>
-              <div class="checksum-info">
-                <strong>SHA-256:</strong> <code>ED00CF9B3A65E6911022922FF8EDAD07596E9EBB580A34EFA8334C31833D7828</code>
-              </div>
-              <a href="/psira.apk" download class="btn-download secondary">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                Download APK
-              </a>
+            <div class="checksum-info">
+              <strong>SHA-256:</strong> <code>0AC40970671EB773E682A77940AA33FFA8C30A5A80F07DE549571E84CB986DD7</code>
             </div>
+            <a href="/foodlens.apk" download class="btn-download">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="7 10 12 15 17 10" />
+                <line x1="12" y1="15" x2="12" y2="3" />
+              </svg>
+              Download APK
+            </a>
           </div>
         </div>
-      </section>
 
-      <section id="about" class="about-section">
-        <div class="about-content reveal scroll">
-          <h2 class="section-title">About Ravana Hub</h2>
-          <p class="about-text">
-            Ravana Hub is a premium distribution platform for cutting-edge mobile applications. 
-            We provide direct access to high-fidelity APKs for FoodLens, PsiRa, and other elite software tools.
-          </p>
-
-          <div class="guide-container reveal scroll delay-1">
-            <h3>How to Install APKs</h3>
-            <ol class="guide-list">
-              <li><strong>Download:</strong> Click the "Download APK" button for your desired app.</li>
-              <li><strong>Allow Sources:</strong> Go to Settings > Security and enable <em>"Install from Unknown Sources"</em>.</li>
-              <li><strong>Install:</strong> Open the downloaded file from your notifications or file manager.</li>
-              <li><strong>Verify:</strong> Compare the SHA-256 checksum to ensure file integrity.</li>
-            </ol>
+        <!-- PsiRa Card -->
+        <div class="app-card reveal scroll delay-2">
+          <div class="app-visual">
+            <img src="/psira.png" alt="PsiRa Mockup" />
+          </div>
+          <div class="app-info">
+            <span class="category">Stealth & Security</span>
+            <h3>PsiRa</h3>
+            <p>The ultimate stealth communication. Secure, shadow-bound networking for the elite few.</p>
+            <div class="app-stats">
+              <span>V1.3.5</span> • <span>47MB</span> • <span>Updated: Mar 31, 2026</span>
+            </div>
+            <div class="checksum-info">
+              <strong>SHA-256:</strong> <code>232C9D99286BCC8EF58D6777DFD7CF18C6119F9AC59115893F3FDFAEAC60BA2F</code>
+            </div>
+            <a href="/psira-v1.3.5.apk" download class="btn-download secondary">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="7 10 12 15 17 10" />
+                <line x1="12" y1="15" x2="12" y2="3" />
+              </svg>
+              Download APK
+            </a>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <footer class="footer">
-        <div class="footer-content">
-          <div class="footer-logo">Ravana Hub</div>
-          <div class="socials">
-            <a href="mailto:ravana200629@gmail.com" rel="noopener noreferrer">Support: ravana200629@gmail.com</a>
-            <a href="#" rel="noopener noreferrer">Terms</a>
-            <a href="#" rel="noopener noreferrer">Privacy</a>
-          </div>
+    <section id="about" class="about-section">
+      <div class="about-content reveal scroll">
+        <h2 class="section-title">The Philosophy of Absolute Power</h2>
+        <p class="about-text">
+          "Know your place. In this domain, only the strongest tools survive. PRIME X is the culmination of technical
+          superiority, where every byte is refined through the fires of execution."
+        </p>
+
+        <div class="guide-container reveal scroll delay-1">
+          <h3>The Ritual of Installation</h3>
+          <ol class="guide-list">
+            <li><strong>Secure Acquisition:</strong> Extract the APK from our reinforced servers.</li>
+            <li><strong>Sacrificial Source:</strong> Enable <em>"Install from Unknown Sources"</em> in your device
+              ritual settings.</li>
+            <li><strong>Manifestation:</strong> Execute the package with absolute intent.</li>
+            <li><strong>Contract Verification:</strong> Validate the SHA-256 checksum to ensure the binding vow is
+              intact.</li>
+          </ol>
         </div>
-        <div class="legal-disclaimer">
-          <p><strong>Disclaimer:</strong> Ravana Hub is a distribution platform. We are not the official developers of the shared applications. All trademarks belong to their respective owners. Use these applications at your own discretion. We recommend verifying checksums and scanning with VirusTotal before installation.</p>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="footer-content">
+        <div class="footer-logo">PRIME X</div>
+        <div class="socials">
+          <a href="mailto:shrine@primex.info" rel="noopener noreferrer">Summon Support</a>
+          <a href="#" rel="noopener noreferrer">Rituals</a>
+          <a href="#" rel="noopener noreferrer">Sacrifices</a>
         </div>
-        <p class="copyright">&copy; 2026 Ravana Inc. All rights reserved.</p>
-      </footer>
-    </div>
-    <script type="module" src="/main.js"></script>
-  </body>
+      </div>
+      <div class="legal-disclaimer">
+        <p><strong>Disclaimer:</strong> This is a domain of absolute distribution. All applications are shared with
+          binding vows of quality. Use at your own peril. Always scan for curses (viruses).</p>
+      </div>
+      <p class="copyright">&copy; 2026 The Malevolent Entity. All rights reserved.</p>
+    </footer>
+  </div>
+  <script type="module" src="/main.js"></script>
+
+
+</body>
+
 </html>

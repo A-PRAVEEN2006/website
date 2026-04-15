@@ -6,9 +6,16 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "tunnel": "lt --port 5173 --local-https --allow-invalid-cert"
   },
   "devDependencies": {
-    "vite": "^8.0.1"
+    "local-ssl-proxy": "^2.0.5",
+    "localtunnel": "^2.0.2",
+    "vite": "^8.0.1",
+    "vite-plugin-mkcert": "^1.17.12"
+  },
+  "dependencies": {
+    "three": "^0.183.2"
   }
 }
