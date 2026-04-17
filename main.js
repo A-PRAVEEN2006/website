@@ -131,20 +131,20 @@ const triggerDomainExpansion = () => {
     }, 100);
     
     const domainVideo = document.getElementById('domain-video');
-    // Start video synchronously before any timeouts to satisfy strict autoplay policies
+    // Combine both Domain video sound and OST music immediately
     if (domainVideo) {
         domainVideo.volume = 0.5;
         domainVideo.play().catch(e => {
             console.warn('Video autoplay failed:', e);
             body.classList.remove('domain-video-playing');
             body.classList.add('domain-active');
-            startMusicOverlay(); // Fallback if video fails
         });
+        
+        startMusicOverlay(); // Instantly start the OST song!
         
         domainVideo.onended = () => {
             body.classList.remove('domain-video-playing');
             body.classList.add('domain-active');
-            startMusicOverlay(); // Play quiet OST AFTER video completes
         };
     } else {
         setTimeout(startMusicOverlay, 1500); // Standard fallback

@@ -1015,6 +1015,33 @@ body.domain-active #bg-particles {
   50% { transform: translateX(-2px); }
 }
 
+.evil-text-prompt {
+  position: absolute;
+  right: 60px; top: 150px;
+  color: #ff1e1e;
+  font-family: 'Times New Roman', serif;
+  font-style: italic;
+  font-size: 1.5rem;
+  text-shadow: 0 0 10px #ff0000;
+  text-align: center;
+  pointer-events: none;
+}
+
+.evil-text-prompt span {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(-20px) scale(1.5) rotate(-10deg);
+  animation: curseDrop 3s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+  text-shadow: 0 0 8px red, 0 0 15px darkred;
+}
+
+@keyframes curseDrop {
+  0% { opacity: 0; transform: translateY(-20px) scale(1.5) rotate(-10deg); filter: blur(5px); }
+  20% { opacity: 1; transform: translateY(0) scale(1) rotate(0deg); filter: blur(0); }
+  80% { opacity: 1; transform: translateY(0) scale(1) rotate(0deg); filter: blur(0); text-shadow: 0 0 20px red; }
+  100% { opacity: 0; transform: translateY(10px) scale(0.9) rotate(5deg); filter: blur(2px); }
+}
+
 /* 5. App Card (Slash animation removed) */
 .premium-app-card {
   position: relative;
