@@ -165,10 +165,8 @@
   <!-- Water Reflection Filter -->
   <svg style="position: absolute; width: 0; height: 0;">
     <filter id="water-filter">
-      <feTurbulence type="fractalNoise" baseFrequency="0.01 0.05" numOctaves="1" result="noise">
-        <animate attributeName="baseFrequency" values="0.01 0.05; 0.015 0.07; 0.01 0.05" dur="8s" repeatCount="indefinite" />
-      </feTurbulence>
-      <feDisplacementMap in="SourceGraphic" in2="noise" scale="20" xChannelSelector="R" yChannelSelector="B" />
+      <feTurbulence type="fractalNoise" baseFrequency="0.01 0.05" numOctaves="1" result="noise"></feTurbulence>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="5" xChannelSelector="R" yChannelSelector="B" />
     </filter>
   </svg>
 

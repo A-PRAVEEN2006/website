@@ -839,6 +839,12 @@ section {
 body, a, button, .pull-rope-container, .cursed-eye {
   cursor: none !important; /* Hide native cursor everywhere */
 }
+body.app-page-body, body.app-page-body * {
+  cursor: auto !important;
+}
+body.app-page-body a, body.app-page-body button, body.app-page-body .back-nav, body.app-page-body a * {
+  cursor: pointer !important;
+}
 
 #slash-cursor {
   position: fixed;

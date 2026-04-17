@@ -9,13 +9,13 @@ export function initParticles() {
     const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
 
     renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setPixelRatio(1); // Optimized for lower GPU usage
 
     camera.position.z = 50;
 
     // Create Particles (Grudge / Ash)
     const particlesGeometry = new THREE.BufferGeometry();
-    const particlesCount = 1500;
+    const particlesCount = 300;
     
     const posArray = new Float32Array(particlesCount * 3);
     const colorArray = new Float32Array(particlesCount * 3);
@@ -39,7 +39,7 @@ export function initParticles() {
 
     // Particle Material
     const particlesMaterial = new THREE.PointsMaterial({
-        size: 0.3,
+        size: 0.15,
         vertexColors: true,
         transparent: true,
         opacity: 0.8,
