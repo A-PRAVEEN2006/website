@@ -38,19 +38,34 @@ const initPullRope = () => {
         const currentY = e.clientY || (e.touches ? e.touches[0].clientY : 0);
         const diff = currentY - state.startY;
         
-        if (diff > 0 && diff < state.pullThreshold + 50) {
+        if (diff > 0 && diff <= state.pullThreshold + 50) {
             state.currentPull = diff;
             pullRope.style.transform = `translateY(${diff}px)`;
-        }
-
-        if (diff >= state.pullThreshold && !state.isDomainActive) {
-            triggerDomainExpansion();
-            endDrag();
+            
+            // Visual indicator that domain expansion is fully primed prior to release
+            const glow = document.querySelector('.bulb-glow');
+            if (glow) {
+                if (diff >= state.pullThreshold && !state.isDomainActive) {
+                    glow.style.opacity = '1';
+                    glow.style.background = 'radial-gradient(circle, rgba(255,30,30,0.8) 0%, transparent 70%)';
+                } else {
+                    glow.style.opacity = '0';
+                }
+            }
         }
     };
 
     const endDrag = () => {
+        if (!state.isDragging) return;
         state.isDragging = false;
+        
+        if (state.currentPull >= state.pullThreshold && !state.isDomainActive) {
+            triggerDomainExpansion();
+        } else {
+            const glow = document.querySelector('.bulb-glow');
+            if (glow) glow.style.opacity = '0';
+        }
+
         state.currentPull = 0;
         pullRope.style.transition = 'transform 0.5s cubic-bezier(0.16, 1, 0.3, 1)';
         pullRope.style.transform = 'translateY(0)';
