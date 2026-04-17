@@ -166,6 +166,11 @@ body.domain-active #app {
   touch-action: none;
 }
 
+.pull-rope-container.hidden-pull {
+  transform: translateY(-1000px) !important;
+  opacity: 0;
+}
+
 .pull-rope-container:active {
   cursor: grabbing;
 }

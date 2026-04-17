@@ -5,6 +5,10 @@ const sukunaBgm = new Audio('/sukuna_ost.mp3');
 sukunaBgm.loop = true;
 sukunaBgm.volume = 0; // Starts at 0, fades in
 
+const idleBgm = new Audio('/idle_bgm.mp3');
+idleBgm.loop = true;
+idleBgm.volume = 0;
+
 // --- State Management ---
 const state = {
     isDomainActive: false,
@@ -117,9 +121,19 @@ const triggerDomainExpansion = () => {
     // 1. Play Flash Effect
     flash.classList.add('active');
     
+    // Stop idle background music
+    let fadeOut = setInterval(() => {
+        if (idleBgm.volume > 0.05) idleBgm.volume -= 0.05;
+        else {
+            idleBgm.pause();
+            clearInterval(fadeOut);
+        }
+    }, 100);
+    
     const domainVideo = document.getElementById('domain-video');
     // Start video synchronously before any timeouts to satisfy strict autoplay policies
     if (domainVideo) {
+        domainVideo.volume = 0.5;
         domainVideo.play().catch(e => {
             console.warn('Video autoplay failed:', e);
             body.classList.remove('domain-video-playing');
@@ -163,15 +177,32 @@ document.addEventListener('DOMContentLoaded', () => {
     initPullRope();
     initParticles();
 
-    // Manage JJK Splash Screen
+    // Manage Interactive JJK Splash Screen
     const splash = document.getElementById('jjk-splash');
     if (splash) {
-        setTimeout(() => {
+        splash.addEventListener('click', () => {
+            // Unlock audio on click
+            idleBgm.play().then(() => {
+                let fade = setInterval(() => {
+                    if (idleBgm.volume < 0.2) idleBgm.volume = Math.min(0.2, idleBgm.volume + 0.02);
+                    else clearInterval(fade);
+                }, 200);
+            }).catch(e => console.warn('Idle BGM failed', e));
+
+            // Trigger ultra-slow fade
+            splash.style.transition = 'opacity 4s ease';
             splash.style.opacity = '0';
-            setTimeout(() => {
-                splash.remove();
-            }, 500);
-        }, 2200);
+            
+            // Drop pulley from ceiling
+            const ropeContainer = document.querySelector('.pull-rope-container');
+            if (ropeContainer) {
+                setTimeout(() => {
+                    ropeContainer.classList.remove('hidden-pull');
+                }, 500);
+            }
+
+            setTimeout(() => splash.remove(), 4000);
+        });
     }
 
     // Custom Cleave/Dismantle Cursor

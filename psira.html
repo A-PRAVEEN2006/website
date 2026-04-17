@@ -36,6 +36,10 @@
         </a>
       </div>
     </div>
-  </div>
+  <div class="page-slice page-slice-top" style="transform: translate(0,0); transition: transform 0.6s cubic-bezier(0.77, 0, 0.175, 1);"></div>
+  <div class="page-slice page-slice-bottom" style="transform: translate(0,0); transition: transform 0.6s cubic-bezier(0.77, 0, 0.175, 1);"></div>
+  <script>
+    window.addEventListener('DOMContentLoaded', () => { setTimeout(() => { document.querySelectorAll('.page-slice').forEach(el => el.style.transform = ''); }, 50); });
+  </script>
 </body>
 </html>

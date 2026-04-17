@@ -22,8 +22,9 @@
   <div id="slash-cursor"></div>
 
   <!-- JJK Splash Screen -->
-  <div id="jjk-splash">
+  <div id="jjk-splash" style="cursor: pointer; flex-direction: column; gap: 2rem;">
     <div class="splash-text" data-text="MALEVOLENT SHRINE">MALEVOLENT SHRINE</div>
+    <div style="color: #aa0000; font-family: 'Times New Roman', serif; font-style: italic; font-size: 1.5rem; letter-spacing: 5px; animation: eyeFlicker 3s infinite;">[ CLICK TO ENTER ]</div>
   </div>
 
   <!-- Initial Red Flash -->
@@ -46,7 +47,8 @@
 
 
   <!-- Pull Rope Interaction -->
-  <div class="pull-rope-container" id="pull-rope">
+  <div class="pull-rope-container hidden-pull" id="pull-rope" style="transition: transform 2s ease, opacity 2s ease;">
+    <div class="evil-text-prompt" style="position: absolute; right: 60px; top: 150px; color: #ff1e1e; font-family: 'Times New Roman', serif; font-style: italic; width: 20px; font-size: 1.1rem; text-shadow: 0 0 10px #ff0000; letter-spacing: 5px; animation: splashGlitch 4s infinite, eyeFlicker 2s infinite; text-align: center;">PULL<br><br>THIS<br><br>ROPE<br><br>FOOL</div>
     <div class="rope"></div>
     <div class="cursed-eye">
       <div class="eye-glow"></div>
