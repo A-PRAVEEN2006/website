@@ -24,6 +24,13 @@ const initPullRope = () => {
         state.startY = e.clientY || (e.touches ? e.touches[0].clientY : 0);
         pullRope.style.transition = 'none';
         body.classList.add('grabbing');
+
+        // Unlock media capabilities explicitly on the first click/tap constraint (safari/mobile strictness)
+        const domainVideo = document.getElementById('domain-video');
+        if (domainVideo && !state.videoUnlocked) {
+            state.videoUnlocked = true;
+            domainVideo.load(); // Primes the engine during user interaction
+        }
     };
 
     const onDrag = (e) => {
@@ -67,23 +74,29 @@ const triggerDomainExpansion = () => {
     // 1. Play Flash Effect
     flash.classList.add('active');
     
-    // 2. Change Body Classes
+    const domainVideo = document.getElementById('domain-video');
+    // Start video synchronously before any timeouts to satisfy strict autoplay policies
+    if (domainVideo) {
+        domainVideo.play().catch(e => {
+            console.warn('Video autoplay failed:', e);
+            body.classList.remove('domain-video-playing');
+            body.classList.add('domain-active');
+        });
+        
+        domainVideo.onended = () => {
+            body.classList.remove('domain-video-playing');
+            body.classList.add('domain-active');
+        };
+    }
+    
+    // 2. Change Body Classes asynchronously 
     setTimeout(() => {
         body.classList.remove('shrine-dimmed');
-        
-        const domainVideo = document.getElementById('domain-video');
         if (domainVideo) {
-            body.classList.add('domain-video-playing');
-            domainVideo.play().catch(e => {
-                console.warn('Video autoplay failed:', e);
-                body.classList.remove('domain-video-playing');
-                body.classList.add('domain-active');
-            });
-            
-            domainVideo.onended = () => {
-                body.classList.remove('domain-video-playing');
-                body.classList.add('domain-active');
-            };
+            // Check if it didn't fail and is playing
+            if (!domainVideo.paused) {
+                body.classList.add('domain-video-playing');
+            }
         } else {
             body.classList.add('domain-active');
         }
