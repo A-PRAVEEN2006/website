@@ -1010,30 +1010,10 @@ body.domain-active #bg-particles {
   50% { transform: translateX(-2px); }
 }
 
-/* 5. App Card Slash Animation on Hover */
+/* 5. App Card (Slash animation removed) */
 .premium-app-card {
   position: relative;
   overflow: hidden;
-}
-.premium-app-card::after {
-  content: '';
-  position: absolute;
-  top: -50%; left: -50%;
-  width: 200%; height: 200%;
-  background: linear-gradient(to bottom right, transparent 48%, rgba(255,255,255,0.8) 50%, transparent 52%);
-  transform: scale(0) rotate(0deg);
-  opacity: 0;
-  pointer-events: none;
-  z-index: 10;
-}
-.premium-app-card:hover::after {
-  animation: slashCardAnim 0.4s ease-out forwards;
-}
-
-@keyframes slashCardAnim {
-  0% { transform: scale(0) rotate(45deg); opacity: 1; }
-  50% { transform: scale(1) rotate(45deg); opacity: 1; filter: drop-shadow(0 0 10px red); }
-  100% { transform: scale(2) rotate(45deg); opacity: 0; }
 }
 
 /* 6. View Transition (Slicing) */
