@@ -18,11 +18,21 @@
 </head>
 
 <body class="shrine-dimmed">
+  <!-- Custom Slash Cursor -->
+  <div id="slash-cursor"></div>
+
+  <!-- JJK Splash Screen -->
+  <div id="jjk-splash">
+    <div class="splash-text" data-text="MALEVOLENT SHRINE">MALEVOLENT SHRINE</div>
+  </div>
+
   <!-- Initial Red Flash -->
   <div class="intro-red-flash" id="intro-flash"></div>
 
   <!-- Domain Background -->
   <div class="domain-bg-container" id="domain-bg">
+    <!-- Three.js Particles -->
+    <canvas id="bg-particles"></canvas>
     <!-- The Video Animation -->
     <video id="domain-video" src="/domain_expansion.mp4" playsinline class="domain-video-element"></video>
     
@@ -123,8 +133,8 @@
 
       <section id="about" class="about-section">
         <div class="about-content premium-about-card">
-          <h2 class="section-title">The Philosophy of Absolute Power</h2>
-          <p class="about-text">
+          <h2 class="section-title glitch-text" data-text="The Philosophy of Absolute Power">The Philosophy of Absolute Power</h2>
+          <p class="about-text glitch-text-p" data-text="&quot;Know your place. In this domain, only the strongest tools survive. PRIME X is the culmination of technical superiority.&quot;">
             "Know your place. In this domain, only the strongest tools survive. PRIME X is the culmination of technical superiority."
           </p>
         </div>
@@ -147,6 +157,10 @@
   </div>
   
   <div class="expansion-flash" id="flash"></div>
+
+  <!-- Page Transition Slices -->
+  <div class="page-slice page-slice-top"></div>
+  <div class="page-slice page-slice-bottom"></div>
 
   <!-- Water Reflection Filter -->
   <svg style="position: absolute; width: 0; height: 0;">

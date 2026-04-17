@@ -831,3 +831,230 @@ section {
   filter: drop-shadow(0 0 5px var(--primary));
 }
 
+/* =========================================
+   JJK THEMATIC ENHANCEMENTS
+   ========================================= */
+
+/* 1. Custom Slash Cursor */
+body, a, button, .pull-rope-container, .cursed-eye {
+  cursor: none !important; /* Hide native cursor everywhere */
+}
+
+#slash-cursor {
+  position: fixed;
+  top: 0; left: 0;
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  background: rgba(255, 30, 30, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  pointer-events: none;
+  z-index: 99999;
+  transform: translate(-50%, -50%);
+  transition: width 0.1s, height 0.1s, background 0.1s;
+  mix-blend-mode: exclusion;
+}
+
+#slash-cursor.active {
+  width: 30px; height: 30px;
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.slash-mark {
+  position: fixed;
+  background: linear-gradient(90deg, transparent, #fff, #ff1e1e, transparent);
+  height: 2px;
+  width: 150px;
+  pointer-events: none;
+  z-index: 99998;
+  transform-origin: center;
+  animation: slashAnim 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes slashAnim {
+  0% { transform: scaleX(0); opacity: 1; filter: drop-shadow(0 0 10px #ff1e1e); }
+  50% { transform: scaleX(1); opacity: 1; filter: drop-shadow(0 0 20px #ff1e1e); }
+  100% { transform: scaleX(1.5); opacity: 0; filter: drop-shadow(0 0 5px #ff1e1e); }
+}
+
+/* 2. JJK Splash Screen */
+#jjk-splash {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: #000;
+  z-index: 100000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 0.5s ease;
+}
+
+.splash-text {
+  font-size: clamp(2rem, 6vw, 5rem);
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: 5px;
+  position: relative;
+  text-align: center;
+  animation: splashJitter 0.1s infinite;
+}
+
+.splash-text::before, .splash-text::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  opacity: 0.8;
+}
+
+.splash-text::before {
+  color: #ff0000;
+  z-index: -1;
+  animation: splashGlitch 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
+}
+
+.splash-text::after {
+  color: #00e5ff;
+  z-index: -2;
+  animation: splashGlitch 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite reverse;
+}
+
+@keyframes splashJitter {
+  0% { transform: translate(0, 0); }
+  20% { transform: translate(-2px, 2px); }
+  40% { transform: translate(-2px, -2px); }
+  60% { transform: translate(2px, 2px); }
+  80% { transform: translate(2px, -2px); }
+  100% { transform: translate(0, 0); }
+}
+
+@keyframes splashGlitch {
+  0% { transform: translate(0); }
+  20% { transform: translate(-3px, 3px); }
+  40% { transform: translate(-3px, -3px); }
+  60% { transform: translate(3px, 3px); }
+  80% { transform: translate(3px, -3px); }
+  100% { transform: translate(0); }
+}
+
+/* 3. Three.js Particle Canvas */
+#bg-particles {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 2s ease;
+}
+
+body.domain-active #bg-particles {
+  opacity: 1; /* Fade in particles when domain bursts */
+}
+
+/* 4. Glitch / Fear Text Hover Effects */
+.glitch-text { position: relative; display: inline-block; }
+.glitch-text::before, .glitch-text::after {
+  content: attr(data-text);
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  opacity: 0; pointer-events: none;
+}
+
+.about-content:hover .glitch-text::before {
+  left: 2px; text-shadow: -2px 0 red; opacity: 1;
+  animation: glitch-anim-1 2s infinite linear alternate-reverse;
+}
+.about-content:hover .glitch-text::after {
+  left: -2px; text-shadow: -2px 0 cyan; opacity: 1;
+  animation: glitch-anim-2 3s infinite linear alternate-reverse;
+}
+
+.glitch-text-p { position: relative; display: block; }
+.glitch-text-p::before, .glitch-text-p::after {
+  content: attr(data-text);
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  opacity: 0; pointer-events: none;
+}
+.about-content:hover .glitch-text-p::before {
+  left: 1px; text-shadow: -1px 0 red; opacity: 0.8;
+  clip-path: inset(10% 0 80% 0);
+  animation: baseGlitch 1s infinite linear;
+}
+.about-content:hover .glitch-text-p::after {
+  left: -1px; text-shadow: -1px 0 blue; opacity: 0.8;
+  clip-path: inset(80% 0 10% 0);
+  animation: baseGlitch 1.5s infinite linear reverse;
+}
+
+@keyframes glitch-anim-1 {
+  0% { clip-path: inset(20% 0 80% 0); }
+  20% { clip-path: inset(60% 0 10% 0); }
+  40% { clip-path: inset(40% 0 50% 0); }
+  60% { clip-path: inset(80% 0 5% 0); }
+  80% { clip-path: inset(10% 0 70% 0); }
+  100% { clip-path: inset(30% 0 20% 0); }
+}
+@keyframes glitch-anim-2 {
+  0% { clip-path: inset(10% 0 60% 0); }
+  20% { clip-path: inset(30% 0 20% 0); }
+  40% { clip-path: inset(70% 0 10% 0); }
+  60% { clip-path: inset(20% 0 50% 0); }
+  80% { clip-path: inset(50% 0 30% 0); }
+  100% { clip-path: inset(5% 0 80% 0); }
+}
+@keyframes baseGlitch {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(-2px); }
+}
+
+/* 5. App Card Slash Animation on Hover */
+.premium-app-card {
+  position: relative;
+  overflow: hidden;
+}
+.premium-app-card::after {
+  content: '';
+  position: absolute;
+  top: -50%; left: -50%;
+  width: 200%; height: 200%;
+  background: linear-gradient(to bottom right, transparent 48%, rgba(255,255,255,0.8) 50%, transparent 52%);
+  transform: scale(0) rotate(0deg);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 10;
+}
+.premium-app-card:hover::after {
+  animation: slashCardAnim 0.4s ease-out forwards;
+}
+
+@keyframes slashCardAnim {
+  0% { transform: scale(0) rotate(45deg); opacity: 1; }
+  50% { transform: scale(1) rotate(45deg); opacity: 1; filter: drop-shadow(0 0 10px red); }
+  100% { transform: scale(2) rotate(45deg); opacity: 0; }
+}
+
+/* 6. View Transition (Slicing) */
+.page-slice {
+  position: fixed;
+  width: 100vw; height: 100vh;
+  background: #000;
+  z-index: 999999;
+  pointer-events: none;
+  transition: transform 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+.page-slice-top {
+  top: 0; left: 0;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 0);
+  transform: translate(-100%, -100%);
+}
+
+.page-slice-bottom {
+  top: 0; left: 0;
+  clip-path: polygon(0 0, 100% 100%, 0 100%, 0 0);
+  transform: translate(100%, 100%);
+}
+
+body.is-transitioning .page-slice-top {
+  transform: translate(0, 0);
+}
+body.is-transitioning .page-slice-bottom {
+  transform: translate(0, 0);
+}

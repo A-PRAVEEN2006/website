@@ -1,10 +1,18 @@
+import { initParticles } from './particles.js';
+
+// --- Assets ---
+const sukunaBgm = new Audio('/sukuna_ost.mp3');
+sukunaBgm.loop = true;
+sukunaBgm.volume = 0; // Starts at 0, fades in
+
 // --- State Management ---
 const state = {
     isDomainActive: false,
     pullThreshold: 150,
     currentPull: 0,
     isDragging: false,
-    activeApp: null
+    activeApp: null,
+    audioUnlocked: false
 };
 
 // --- DOM Elements ---
@@ -26,7 +34,17 @@ const initPullRope = () => {
         pullRope.style.transition = 'none';
         body.classList.add('grabbing');
 
-        // Unlock media capabilities explicitly on the first click/tap constraint (safari/mobile strictness)
+        // Unlock media capabilities & start audio
+        if (!state.audioUnlocked) {
+            state.audioUnlocked = true;
+            sukunaBgm.play().then(() => {
+                let fadeAudio = setInterval(() => {
+                    if (sukunaBgm.volume < 0.5) sukunaBgm.volume = Math.min(0.5, sukunaBgm.volume + 0.05);
+                    else clearInterval(fadeAudio);
+                }, 200);
+            }).catch(e => console.warn('Audio autoplay failed', e));
+        }
+
         const domainVideo = document.getElementById('domain-video');
         if (domainVideo && !state.videoUnlocked) {
             state.videoUnlocked = true;
@@ -131,6 +149,55 @@ const triggerDomainExpansion = () => {
 // --- Startup ---
 document.addEventListener('DOMContentLoaded', () => {
     initPullRope();
+    initParticles();
+
+    // Manage JJK Splash Screen
+    const splash = document.getElementById('jjk-splash');
+    if (splash) {
+        setTimeout(() => {
+            splash.style.opacity = '0';
+            setTimeout(() => {
+                splash.remove();
+            }, 500);
+        }, 2200);
+    }
+
+    // Custom Cleave/Dismantle Cursor
+    const cursor = document.getElementById('slash-cursor');
+    if (cursor) {
+        window.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        window.addEventListener('mousedown', (e) => {
+            if(state.isDragging) return;
+            cursor.classList.add('active');
+            
+            const slash = document.createElement('div');
+            slash.classList.add('slash-mark');
+            slash.style.left = e.clientX + 'px';
+            slash.style.top = e.clientY + 'px';
+            slash.style.transform = `translate(-50%, -50%) rotate(${Math.random() * 360}deg)`;
+            
+            document.body.appendChild(slash);
+            setTimeout(() => slash.remove(), 300);
+        });
+
+        window.addEventListener('mouseup', () => cursor.classList.remove('active'));
+    }
+
+    // View Transitions (Page Slicing) handling
+    document.querySelectorAll('.premium-app-link').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetUrl = this.getAttribute('href');
+            document.body.classList.add('is-transitioning');
+            setTimeout(() => {
+                window.location.href = targetUrl;
+            }, 600); // Wait for CSS slash animation to close
+        });
+    });
 
     // 3D Parallax Effect for Background Image
     const domainWrapper = document.getElementById('domain-wrapper');
