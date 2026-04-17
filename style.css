@@ -1015,31 +1015,86 @@ body.domain-active #bg-particles {
   50% { transform: translateX(-2px); }
 }
 
-.evil-text-prompt {
-  position: absolute;
-  right: 60px; top: 150px;
-  color: #ff1e1e;
-  font-family: 'Times New Roman', serif;
-  font-style: italic;
-  font-size: 1.5rem;
-  text-shadow: 0 0 10px #ff0000;
-  text-align: center;
+/* Spider Animation CSS */
+#spider-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
   pointer-events: none;
+  z-index: 99999;
 }
 
-.evil-text-prompt span {
-  display: inline-block;
+.spider-silk {
+  position: absolute;
+  top: -100vh;
+  left: 20px;
+  width: 1px;
+  height: 100vh;
+  background: rgba(255, 255, 255, 0.3);
+  animation: dropSilk 4s ease-out forwards;
+}
+
+.spider {
+  position: absolute;
+  top: -60px;
+  left: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  animation: spiderScurry 4s ease-out forwards;
+}
+
+.spider-svg {
+  transform: rotate(180deg);
+  filter: drop-shadow(0 5px 10px rgba(0,0,0,0.8));
+}
+
+.leg {
+  transform-origin: center;
+  animation: legWiggle 0.1s infinite alternate;
+}
+.leg.alt {
+  animation: legWiggle 0.1s infinite alternate-reverse;
+}
+
+.spider-dialogue {
+  background: #000;
+  color: #fff;
+  padding: 5px 15px;
+  border: 1px solid #ff1e1e;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-family: var(--font-main);
   opacity: 0;
-  transform: translateY(-20px) scale(1.5) rotate(-10deg);
-  animation: curseDrop 3s cubic-bezier(0.16, 1, 0.3, 1) infinite;
-  text-shadow: 0 0 8px red, 0 0 15px darkred;
+  transform: scale(0.8);
+  box-shadow: 0 0 10px #ff1e1e;
+  transition: opacity 0.5s, transform 0.5s;
 }
 
-@keyframes curseDrop {
-  0% { opacity: 0; transform: translateY(-20px) scale(1.5) rotate(-10deg); filter: blur(5px); }
-  20% { opacity: 1; transform: translateY(0) scale(1) rotate(0deg); filter: blur(0); }
-  80% { opacity: 1; transform: translateY(0) scale(1) rotate(0deg); filter: blur(0); text-shadow: 0 0 20px red; }
-  100% { opacity: 0; transform: translateY(10px) scale(0.9) rotate(5deg); filter: blur(2px); }
+.spider-dialogue.show {
+  opacity: 1;
+  transform: scale(1);
+}
+
+@keyframes dropSilk {
+  0% { transform: translateY(0); }
+  35% { transform: translateY(100vh); }
+  100% { transform: translateY(100vh); opacity: 0; }
+}
+
+@keyframes spiderScurry {
+  0% { transform: translate(0, -60px); }
+  35% { transform: translate(0, 100px); } /* Drops down */
+  50% { transform: translate(0, 100px) rotate(-90deg); } /* Turns right */
+  85% { transform: translate(calc(90vw - 80px), 100px) rotate(-90deg); } /* Scurries across */
+  100% { transform: translate(calc(90vw - 80px), 30px) rotate(-180deg); } /* Reaches right corner and looks down */
+}
+
+@keyframes legWiggle {
+  from { transform: rotate(-5deg); }
+  to { transform: rotate(5deg); }
 }
 
 /* 5. App Card (Slash animation removed) */

@@ -177,33 +177,33 @@ document.addEventListener('DOMContentLoaded', () => {
     initPullRope();
     initParticles();
 
-    // Manage Interactive JJK Splash Screen
-    const splash = document.getElementById('jjk-splash');
-    if (splash) {
-        splash.addEventListener('click', () => {
-            // Unlock audio on click
+    // Spider Animation Sequence
+    setTimeout(() => {
+        // Drop pulley from ceiling when spider reaches the corner
+        const ropeContainer = document.querySelector('.pull-rope-container');
+        if (ropeContainer) {
+            ropeContainer.classList.remove('hidden-pull');
+        }
+        
+        // Show dialogue bubble
+        const dialogue = document.querySelector('.spider-dialogue');
+        if (dialogue) {
+            dialogue.classList.add('show');
+        }
+    }, 3400); // Triggers exactly when spider finishes scurry
+
+    // Global click listener to unlock idle music if they provide the file later
+    window.addEventListener('click', () => {
+        if (!state.audioUnlocked) {
+            state.audioUnlocked = true;
             idleBgm.play().then(() => {
                 let fade = setInterval(() => {
                     if (idleBgm.volume < 0.2) idleBgm.volume = Math.min(0.2, idleBgm.volume + 0.02);
                     else clearInterval(fade);
                 }, 200);
-            }).catch(e => console.warn('Idle BGM failed', e));
-
-            // Trigger ultra-slow fade
-            splash.style.transition = 'opacity 4s ease';
-            splash.style.opacity = '0';
-            
-            // Drop pulley from ceiling
-            const ropeContainer = document.querySelector('.pull-rope-container');
-            if (ropeContainer) {
-                setTimeout(() => {
-                    ropeContainer.classList.remove('hidden-pull');
-                }, 500);
-            }
-
-            setTimeout(() => splash.remove(), 4000);
-        });
-    }
+            }).catch(e => console.warn('Idle BGM locked or missing', e));
+        }
+    }, { once: true });
 
     // Custom Cleave/Dismantle Cursor
     const cursor = document.getElementById('slash-cursor');
