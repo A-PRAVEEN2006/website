@@ -20,6 +20,7 @@ const initPullRope = () => {
     if (!pullRope) return;
 
     const startDrag = (e) => {
+        if (e.cancelable) e.preventDefault();
         state.isDragging = true;
         state.startY = e.clientY || (e.touches ? e.touches[0].clientY : 0);
         pullRope.style.transition = 'none';
@@ -35,6 +36,7 @@ const initPullRope = () => {
 
     const onDrag = (e) => {
         if (!state.isDragging) return;
+        if (e.cancelable) e.preventDefault();
         const currentY = e.clientY || (e.touches ? e.touches[0].clientY : 0);
         const diff = currentY - state.startY;
         
@@ -77,8 +79,8 @@ const initPullRope = () => {
     window.addEventListener('mouseup', endDrag);
 
     // Touch support
-    pullRope.addEventListener('touchstart', startDrag);
-    window.addEventListener('touchmove', onDrag);
+    pullRope.addEventListener('touchstart', startDrag, { passive: false });
+    window.addEventListener('touchmove', onDrag, { passive: false });
     window.addEventListener('touchend', endDrag);
 };
 

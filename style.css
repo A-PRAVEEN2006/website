@@ -163,6 +163,7 @@ body.domain-active #app {
   z-index: 2000;
   cursor: grab;
   transition: transform 0.1s linear;
+  touch-action: none;
 }
 
 .pull-rope-container:active {
