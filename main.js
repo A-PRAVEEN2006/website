@@ -45,11 +45,11 @@ const initPullRope = () => {
             pullRope.style.transform = `translateY(${diff}px)`;
             
             // Visual indicator that domain expansion is fully primed prior to release
-            const glow = document.querySelector('.bulb-glow');
+            const glow = document.querySelector('.eye-glow');
             if (glow) {
                 if (diff >= state.pullThreshold && !state.isDomainActive) {
                     glow.style.opacity = '1';
-                    glow.style.background = 'radial-gradient(circle, rgba(255,30,30,0.8) 0%, transparent 70%)';
+                    glow.style.background = 'radial-gradient(circle, rgba(0,229,255,0.8) 0%, transparent 70%)';
                 } else {
                     glow.style.opacity = '0';
                 }
@@ -64,7 +64,7 @@ const initPullRope = () => {
         if (state.currentPull >= state.pullThreshold && !state.isDomainActive) {
             triggerDomainExpansion();
         } else {
-            const glow = document.querySelector('.bulb-glow');
+            const glow = document.querySelector('.eye-glow');
             if (glow) glow.style.opacity = '0';
         }
 
