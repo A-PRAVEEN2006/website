@@ -34,15 +34,12 @@ const initPullRope = () => {
         pullRope.style.transition = 'none';
         body.classList.add('grabbing');
 
-        // Unlock media capabilities & start audio
+        // Prime audio capabilities quietly 
         if (!state.audioUnlocked) {
             state.audioUnlocked = true;
             sukunaBgm.play().then(() => {
-                let fadeAudio = setInterval(() => {
-                    if (sukunaBgm.volume < 0.5) sukunaBgm.volume = Math.min(0.5, sukunaBgm.volume + 0.05);
-                    else clearInterval(fadeAudio);
-                }, 200);
-            }).catch(e => console.warn('Audio autoplay failed', e));
+                sukunaBgm.pause(); // Prime without playing yet
+            }).catch(e => console.warn('Audio prime failed', e));
         }
 
         const domainVideo = document.getElementById('domain-video');
@@ -102,6 +99,17 @@ const initPullRope = () => {
     window.addEventListener('touchend', endDrag);
 };
 
+const startMusicOverlay = () => {
+    sukunaBgm.volume = 0;
+    sukunaBgm.play().then(() => {
+        let fadeAudio = setInterval(() => {
+            // Cap at 0.15 for low immersive volume
+            if (sukunaBgm.volume < 0.15) sukunaBgm.volume = Math.min(0.15, sukunaBgm.volume + 0.01);
+            else clearInterval(fadeAudio);
+        }, 150);
+    }).catch(e => console.warn('BGM play failed', e));
+};
+
 // --- Domain Expansion Logic ---
 const triggerDomainExpansion = () => {
     state.isDomainActive = true;
@@ -116,12 +124,16 @@ const triggerDomainExpansion = () => {
             console.warn('Video autoplay failed:', e);
             body.classList.remove('domain-video-playing');
             body.classList.add('domain-active');
+            startMusicOverlay(); // Fallback if video fails
         });
         
         domainVideo.onended = () => {
             body.classList.remove('domain-video-playing');
             body.classList.add('domain-active');
+            startMusicOverlay(); // Play quiet OST AFTER video completes
         };
+    } else {
+        setTimeout(startMusicOverlay, 1500); // Standard fallback
     }
     
     // 2. Change Body Classes asynchronously 

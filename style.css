@@ -1020,7 +1020,7 @@ body.domain-active #bg-particles {
 .page-slice {
   position: fixed;
   width: 100vw; height: 100vh;
-  background: #000;
+  background: var(--primary);
   z-index: 999999;
   pointer-events: none;
   transition: transform 0.5s cubic-bezier(0.77, 0, 0.175, 1);
