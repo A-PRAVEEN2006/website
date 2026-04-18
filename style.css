@@ -796,6 +796,14 @@ section {
   width: 100%;
 }
 
+.music-attribution {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  opacity: 0.5;
+  margin-top: 1rem;
+  text-align: center;
+}
+
 .copyright {
   color: rgba(255, 255, 255, 0.3);
   font-size: 0.9rem;
@@ -1028,68 +1036,148 @@ body.domain-active #bg-particles {
 
 .spider-silk {
   position: absolute;
-  top: -100vh;
-  left: 20px;
+  top: 0;
+  left: 5%;
   width: 1px;
-  height: 100vh;
-  background: rgba(255, 255, 255, 0.3);
-  animation: dropSilk 4s ease-out forwards;
+  height: 100px;
+  background: rgba(255, 255, 255, 0.2);
+  transform-origin: top;
+  animation: growSilk 2s ease-out forwards;
+}
+
+@keyframes growSilk {
+  0% { transform: scaleY(0); }
+  100% { transform: scaleY(1); }
 }
 
 .spider {
   position: absolute;
-  top: -60px;
+  top: 0;
   left: 0;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 10px;
-  animation: spiderScurry 4s ease-out forwards;
+  gap: 15px;
+  animation: cinematicSpider 5s cubic-bezier(0.45, 0, 0.55, 1) forwards;
+}
+
+.spider-svg-wrapper {
+  width: 60px;
+  height: 60px;
 }
 
 .spider-svg {
-  transform: rotate(180deg);
-  filter: drop-shadow(0 5px 10px rgba(0,0,0,0.8));
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 5px 15px rgba(0,0,0,0.9));
 }
 
 .leg {
   transform-origin: center;
-  animation: legWiggle 0.1s infinite alternate;
+  stroke: #050505;
+  animation: rapidWiggle 0.15s infinite alternate;
 }
 .leg.alt {
-  animation: legWiggle 0.1s infinite alternate-reverse;
+  animation: rapidWiggle 0.15s infinite alternate-reverse;
 }
 
-.spider-dialogue {
-  background: #000;
-  color: #fff;
-  padding: 5px 15px;
-  border: 1px solid #ff1e1e;
-  border-radius: 20px;
-  font-size: 0.9rem;
-  font-family: var(--font-main);
+@keyframes rapidWiggle {
+  from { transform: translateY(-1px) rotate(-2deg); }
+  to { transform: translateY(1px) rotate(2deg); }
+}
+
+/* Web Dialogue Styling */
+.web-dialogue-wrap {
+  position: relative;
+  width: 220px;
+  height: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   opacity: 0;
-  transform: scale(0.8);
-  box-shadow: 0 0 10px #ff1e1e;
-  transition: opacity 0.5s, transform 0.5s;
+  transform: scale(0.5);
+  transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-.spider-dialogue.show {
+.web-dialogue-wrap.show {
   opacity: 1;
   transform: scale(1);
 }
 
-@keyframes dropSilk {
-  0% { transform: translateY(0); }
-  35% { transform: translateY(100vh); }
-  100% { transform: translateY(100vh); opacity: 0; }
+.web-bg-svg {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  filter: drop-shadow(0 0 10px var(--primary));
 }
 
-@keyframes spiderScurry {
-  0% { transform: translate(0, -60px); }
-  35% { transform: translate(0, 100px); } /* Drops down */
-  50% { transform: translate(0, 100px) rotate(-90deg); } /* Turns right */
-  85% { transform: translate(calc(90vw - 80px), 100px) rotate(-90deg); } /* Scurries across */
-  100% { transform: translate(calc(90vw - 80px), 30px) rotate(-180deg); } /* Reaches right corner and looks down */
+.spider-dialogue {
+  position: relative;
+  z-index: 1;
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-align: center;
+  padding: 0 15px;
+  line-height: 1.4;
+  text-shadow: 2px 2px 10px #000, 0 0 15px var(--primary);
+  transform: rotate(180deg); /* Counter-rotate to stay upright */
+  font-family: 'Outfit', sans-serif;
+}
+
+#spider-container, #pull-rope {
+  transition: opacity 1.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s ease-out !important;
+}
+
+@keyframes cinematicSpider {
+  /* 0-40%: Descend from top-left */
+  0% { transform: translate(5vw, -100px) rotate(180deg); }
+  40% { transform: translate(5vw, 100px) rotate(180deg); }
+  
+  /* 40-50%: Turn Right */
+  45% { transform: translate(5vw, 100px) rotate(90deg); }
+  
+  /* 50-85%: Scurry to the Pulley Area (right: 10%) */
+  50% { transform: translate(5vw, 100px) rotate(90deg); }
+  85% { transform: translate(calc(90vw - 60px), 100px) rotate(90deg); }
+  
+  /* 85-100%: Reached Area, Look Down at Rope mechanism */
+  95% { transform: translate(calc(90vw - 60px), 100px) rotate(180deg); }
+  100% { transform: translate(calc(90vw - 60px), 30px) rotate(180deg); }
+}
+
+/* Music Toggle Button */
+.bgm-control-btn {
+  background: rgba(255, 30, 30, 0.1);
+  border: 1px solid rgba(255, 30, 30, 0.3);
+  color: #fff;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
+  margin-left: 10px;
+}
+
+.bgm-control-btn:hover {
+  background: rgba(255, 30, 30, 0.2);
+  border-color: var(--primary);
+  box-shadow: 0 0 15px rgba(255, 30, 30, 0.4);
+  transform: scale(1.05);
+}
+
+.bgm-control-btn svg {
+  transition: transform 0.3s ease;
+}
+
+.bgm-control-btn:active {
+  transform: scale(0.95);
 }
 
 @keyframes legWiggle {

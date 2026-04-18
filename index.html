@@ -21,25 +21,47 @@
   <!-- Custom Slash Cursor -->
   <div id="slash-cursor"></div>
 
-  <!-- Spider Entrance Animation -->
   <div id="spider-container">
     <div class="spider-silk"></div>
     <div class="spider">
-      <svg width="40" height="40" viewBox="0 0 100 100" class="spider-svg">
-        <circle cx="50" cy="50" r="15" fill="#050505" />
-        <circle cx="50" cy="30" r="10" fill="#000" />
-        <path d="M35,45 Q20,30 10,50" stroke="#000" stroke-width="3" fill="none" class="leg" />
-        <path d="M35,50 Q10,50 5,65" stroke="#000" stroke-width="3" fill="none" class="leg alt" />
-        <path d="M38,55 Q20,70 15,85" stroke="#000" stroke-width="3" fill="none" class="leg" />
-        <path d="M45,60 Q35,80 35,95" stroke="#000" stroke-width="3" fill="none" class="leg alt" />
-        <path d="M65,45 Q80,30 90,50" stroke="#000" stroke-width="3" fill="none" class="leg alt" />
-        <path d="M65,50 Q90,50 95,65" stroke="#000" stroke-width="3" fill="none" class="leg" />
-        <path d="M62,55 Q80,70 85,85" stroke="#000" stroke-width="3" fill="none" class="leg alt" />
-        <path d="M55,60 Q65,80 65,95" stroke="#000" stroke-width="3" fill="none" class="leg" />
-        <circle cx="47" cy="28" r="2" fill="#ff1e1e" />
-        <circle cx="53" cy="28" r="2" fill="#ff1e1e" />
-      </svg>
-      <div class="spider-dialogue">Pull the rope, fool.</div>
+      <div class="spider-svg-wrapper">
+        <svg width="60" height="60" viewBox="0 0 100 100" class="spider-svg">
+          <!-- Body -->
+          <ellipse cx="50" cy="65" rx="18" ry="22" fill="#0a0a0a" /> <!-- Abdomen -->
+          <circle cx="50" cy="40" r="12" fill="#000" /> <!-- Cephalothorax -->
+          
+          <!-- Eyes (Sukuna themed) -->
+          <circle cx="46" cy="38" r="2" fill="#ff1e1e" />
+          <circle cx="54" cy="38" r="2" fill="#ff1e1e" />
+          <circle cx="48" cy="43" r="1.5" fill="#ff1e1e" />
+          <circle cx="52" cy="43" r="1.5" fill="#ff1e1e" />
+
+          <!-- Legs (8 legs, jointed) -->
+          <g stroke="#000" stroke-width="4" fill="none" class="legs-group">
+            <!-- Left legs -->
+            <path d="M40,40 Q20,20 5,45" class="leg" />
+            <path d="M38,45 Q15,40 5,65" class="leg alt" />
+            <path d="M38,55 Q15,70 10,85" class="leg" />
+            <path d="M42,65 Q30,85 35,95" class="leg alt" />
+            
+            <!-- Right legs -->
+            <path d="M60,40 Q80,20 95,45" class="leg alt" />
+            <path d="M62,45 Q85,40 95,65" class="leg" />
+            <path d="M62,55 Q85,70 90,85" class="leg alt" />
+            <path d="M58,65 Q70,85 65,95" class="leg" />
+          </g>
+        </svg>
+      </div>
+      <div class="web-dialogue-wrap">
+        <svg class="web-bg-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+          <path d="M0,50 Q25,0 50,0 Q75,0 100,50 Q75,100 50,100 Q25,100 0,50" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.2)" stroke-width="0.5" />
+          <line x1="50" y1="0" x2="50" y2="100" stroke="rgba(255,255,255,0.1)" stroke-width="0.5" />
+          <line x1="0" y1="50" x2="100" y2="50" stroke="rgba(255,255,255,0.1)" stroke-width="0.5" />
+          <circle cx="50" cy="50" r="10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5" />
+          <circle cx="50" cy="50" r="25" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5" />
+        </svg>
+        <div class="spider-dialogue">To enter into my domain, pull the rope.</div>
+      </div>
     </div>
   </div>
 
@@ -51,7 +73,9 @@
     <!-- Three.js Particles -->
     <canvas id="bg-particles"></canvas>
     <!-- The Video Animation -->
-    <video id="domain-video" src="/domain_expansion.mp4" playsinline class="domain-video-element"></video>
+    <video id="domain-video" preload="auto" playsinline class="domain-video-element">
+      <source src="/domain_expansion.mp4" type="video/mp4">
+    </video>
     
     <!-- The Still Image (Shown after video) -->
     <div class="domain-img-wrapper" id="domain-wrapper" style="opacity: 0; transition: opacity 1.5s;">
@@ -84,6 +108,11 @@
         <a href="#apps">Domain</a>
         <a href="#about">Philosophy</a>
         <a href="#apps" class="btn-primary mini">Conquer</a>
+        <!-- Music Toggle -->
+        <button id="bgm-toggle" class="bgm-control-btn" title="Toggle Music">
+          <svg class="sound-on" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+          <svg class="sound-off" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;"><path d="M11 5L6 9H2v6h4l5 4V5z"></path><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+        </button>
       </div>
     </nav>
 
@@ -168,6 +197,9 @@
           <a href="mailto:anbuselvan1613@gmail.com">Summon Support (anbuselvan1613@gmail.com)</a>
           <a href="#">Rituals</a>
         </div>
+      </div>
+      <div class="music-attribution">
+        Audio: "Gathering Darkness" & "Sukuna OST" by Kevin MacLeod / Various Artists
       </div>
       <p class="copyright">&copy; 2026 The Malevolent Entity. All rights reserved.</p>
     </footer>

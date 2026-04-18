@@ -2,7 +2,7 @@ import { initParticles } from './particles.js';
 
 // --- Assets ---
 const sukunaBgm = new Audio('/sukuna_ost.mp3');
-sukunaBgm.loop = true;
+sukunaBgm.loop = false; // Play once during expansion
 sukunaBgm.volume = 0; // Starts at 0, fades in
 
 const idleBgm = new Audio('/idle_bgm.mp3');
@@ -114,9 +114,49 @@ const startMusicOverlay = () => {
     }).catch(e => console.warn('BGM play failed', e));
 };
 
+const transitionToPostDomainMusic = () => {
+    // 1. Fade out the dramatic OST
+    let fadeOut = setInterval(() => {
+        if (sukunaBgm.volume > 0.02) sukunaBgm.volume -= 0.02;
+        else {
+            sukunaBgm.pause();
+            clearInterval(fadeOut);
+        }
+    }, 100);
+
+    // 2. Play the atmospheric track at low volume (0.08)
+    idleBgm.currentTime = 0;
+    idleBgm.volume = 0;
+    idleBgm.play().then(() => {
+        let fadeIn = setInterval(() => {
+            if (idleBgm.volume < 0.08) idleBgm.volume += 0.01;
+            else clearInterval(fadeIn);
+        }, 200);
+    }).catch(e => console.warn('Post-domain audio failed', e));
+};
+
+let domainExpansionTimeout = null;
+
+const completeDomainTransition = () => {
+    if (domainExpansionTimeout) clearTimeout(domainExpansionTimeout);
+    body.classList.remove('domain-video-playing');
+    body.classList.add('domain-active');
+    
+    // Transition back to the atmospheric 'idle' track at low volume
+    if (sukunaBgm.paused || sukunaBgm.ended || sukunaBgm.currentTime === 0) {
+        transitionToPostDomainMusic();
+    }
+};
+
 // --- Domain Expansion Logic ---
 const triggerDomainExpansion = () => {
     state.isDomainActive = true;
+    
+    // Fade out spider and rope immediately
+    const spider = document.getElementById('spider-container');
+    const rope = document.getElementById('pull-rope');
+    if (spider) spider.style.opacity = '0';
+    if (rope) rope.style.opacity = '0';
     
     // 1. Play Flash Effect
     flash.classList.add('active');
@@ -131,38 +171,51 @@ const triggerDomainExpansion = () => {
     }, 100);
     
     const domainVideo = document.getElementById('domain-video');
+    
+    // Safety Fallback: Force transition after 7s if video hangs or fails
+    domainExpansionTimeout = setTimeout(() => {
+        if (!body.classList.contains('domain-active')) {
+            console.warn('Safety timeout: Forcing domain transition');
+            completeDomainTransition();
+        }
+    }, 7000);
+
     // Combine both Domain video sound and OST music immediately
     if (domainVideo) {
         domainVideo.volume = 0.5;
-        domainVideo.play().catch(e => {
+        
+        // Error handling for the video element specifically
+        domainVideo.onerror = () => {
+            console.error('Video loading/playback failed');
+            completeDomainTransition();
+        };
+
+        domainVideo.play().then(() => {
+            // Success: Show the video
+            body.classList.add('domain-video-playing');
+            body.classList.remove('shrine-dimmed');
+        }).catch(e => {
             console.warn('Video autoplay failed:', e);
-            body.classList.remove('domain-video-playing');
-            body.classList.add('domain-active');
+            completeDomainTransition();
         });
         
         startMusicOverlay(); // Instantly start the OST song!
         
+        // The OST should fade out and transition when the video ENDS
         domainVideo.onended = () => {
-            body.classList.remove('domain-video-playing');
-            body.classList.add('domain-active');
+            completeDomainTransition();
+            transitionToPostDomainMusic(); // Force transition regardless of OST position
         };
     } else {
-        setTimeout(startMusicOverlay, 1500); // Standard fallback
+        setTimeout(() => {
+            startMusicOverlay();
+            completeDomainTransition();
+            sukunaBgm.onended = transitionToPostDomainMusic;
+        }, 1500); 
     }
     
-    // 2. Change Body Classes asynchronously 
+    // 3. Subtle camera shake entry
     setTimeout(() => {
-        body.classList.remove('shrine-dimmed');
-        if (domainVideo) {
-            // Check if it didn't fail and is playing
-            if (!domainVideo.paused) {
-                body.classList.add('domain-video-playing');
-            }
-        } else {
-            body.classList.add('domain-active');
-        }
-        
-        // 3. Subtle camera shake entry
         mainContent.style.animation = 'cameraShake 0.5s ease-out';
     }, 100);
 
@@ -177,31 +230,85 @@ document.addEventListener('DOMContentLoaded', () => {
     initPullRope();
     initParticles();
 
-    // Spider Animation Sequence
-    setTimeout(() => {
-        // Drop pulley from ceiling when spider reaches the corner
-        const ropeContainer = document.querySelector('.pull-rope-container');
-        if (ropeContainer) {
-            ropeContainer.classList.remove('hidden-pull');
-        }
-        
-        // Show dialogue bubble
-        const dialogue = document.querySelector('.spider-dialogue');
-        if (dialogue) {
-            dialogue.classList.add('show');
-        }
-    }, 3400); // Triggers exactly when spider finishes scurry
+    const urlParams = new URLSearchParams(window.location.search);
+    const isReturning = urlParams.get('expanded') === 'true';
 
-    // Global click listener to unlock idle music if they provide the file later
+    if (isReturning) {
+        // Skip intro and go straight to expanded state
+        document.body.classList.remove('shrine-dimmed');
+        document.body.classList.add('domain-active');
+        state.isDomainActive = true;
+        
+        const spider = document.getElementById('spider-container');
+        const rope = document.getElementById('pull-rope');
+        if (spider) spider.style.display = 'none';
+        if (rope) rope.style.display = 'none';
+        
+        // Start background music at low volume if interaction occurs
+        const startMusicOnReturn = () => {
+            if (idleBgm.paused) {
+                idleBgm.volume = 0.08;
+                idleBgm.loop = true;
+                idleBgm.play().catch(() => {});
+            }
+            window.removeEventListener('click', startMusicOnReturn);
+            window.removeEventListener('scroll', startMusicOnReturn);
+        };
+        window.addEventListener('click', startMusicOnReturn);
+        window.addEventListener('scroll', startMusicOnReturn);
+    } else {
+        // Cinematic Spider Animation Sequence
+        setTimeout(() => {
+            // Show web dialogue bubble
+            const dialogueWrap = document.querySelector('.web-dialogue-wrap');
+            if (dialogueWrap) {
+                dialogueWrap.classList.add('show');
+            }
+
+            // Drop pulley from ceiling exactly when spider finishes interaction
+            setTimeout(() => {
+                const ropeContainer = document.querySelector('.pull-rope-container');
+                if (ropeContainer) {
+                    ropeContainer.classList.remove('hidden-pull');
+                }
+            }, 300); // 5000ms total spider duration
+        }, 4800); 
+    }
+
+    // BGM Toggle Logic (Moved out of block so it's always initialized)
+    const bgmToggle = document.getElementById('bgm-toggle');
+    if (bgmToggle) {
+        const iconOn = bgmToggle.querySelector('.sound-on');
+        const iconOff = bgmToggle.querySelector('.sound-off');
+        
+        bgmToggle.addEventListener('click', () => {
+            if (idleBgm.paused) {
+                idleBgm.volume = 0.08;
+                idleBgm.play().catch(e => console.warn('BGM resume failed', e));
+                iconOn.style.display = 'block';
+                iconOff.style.display = 'none';
+            } else {
+                idleBgm.pause();
+                iconOn.style.display = 'none';
+                iconOff.style.display = 'block';
+            }
+        });
+    }
+
+    // Global click listener to UNLOCK audio without playing it loudly during intro
     window.addEventListener('click', () => {
         if (!state.audioUnlocked) {
             state.audioUnlocked = true;
+            // Play silently to unlock the audio context
+            const originalVolume = idleBgm.volume;
+            if (!state.isDomainActive) idleBgm.volume = 0; 
+            
             idleBgm.play().then(() => {
-                let fade = setInterval(() => {
-                    if (idleBgm.volume < 0.2) idleBgm.volume = Math.min(0.2, idleBgm.volume + 0.02);
-                    else clearInterval(fade);
-                }, 200);
-            }).catch(e => console.warn('Idle BGM locked or missing', e));
+                if (!state.isDomainActive) {
+                    idleBgm.pause(); // Just unlock it
+                    idleBgm.volume = originalVolume;
+                }
+            }).catch(e => console.warn('Audio contextual unlock failed', e));
         }
     }, { once: true });
 
