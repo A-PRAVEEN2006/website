@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Professional Portfolio | Tech Architect</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --p-bg: #05070a;
+      --p-accent: #4f46e5;
+      --p-accent-glow: rgba(79, 70, 229, 0.4);
+      --p-secondary: #0ea5e9;
+      --p-text: #f8fafc;
+      --p-text-dim: #94a3b8;
+      --p-glass: rgba(15, 23, 42, 0.6);
+      --p-border: rgba(255, 255, 255, 0.08);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background-color: var(--p-bg);
+      color: var(--p-text);
+      font-family: 'Outfit', sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    .p-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* Navigation */
+    .p-nav {
+      padding: 2rem 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(5, 7, 10, 0.8);
+      backdrop-filter: blur(10px);
+    }
+
+    .p-nav a {
+      color: var(--p-text);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+      transition: color 0.3s;
+    }
+
+    .p-nav a:hover { color: var(--p-accent); }
+
+    /* Hero */
+    .p-hero {
+      padding: 8rem 0 4rem;
+      text-align: center;
+    }
+
+    .p-tag {
+      display: inline-block;
+      padding: 0.5rem 1.5rem;
+      background: rgba(79, 70, 229, 0.1);
+      border: 1px solid var(--p-accent);
+      border-radius: 99px;
+      color: var(--p-accent);
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 2rem;
+    }
+
+    .p-hero h1 {
+      font-size: 4rem;
+      font-weight: 800;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .p-hero p {
+      font-size: 1.25rem;
+      color: var(--p-text-dim);
+      max-width: 700px;
+      margin: 0 auto 3rem;
+    }
+
+    /* Grid Layout */
+    .p-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+      margin-top: 4rem;
+    }
+
+    .p-card {
+      background: var(--p-glass);
+      border: 1px solid var(--p-border);
+      padding: 3rem;
+      border-radius: 24px;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .p-card:hover {
+      transform: translateY(-10px);
+      border-color: var(--p-accent);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    }
+
+    .p-card::before {
+      content: '';
+      position: absolute;
+      top: -50%; left: -50%;
+      width: 200%; height: 200%;
+      background: radial-gradient(circle at center, var(--p-accent-glow) 0%, transparent 70%);
+      opacity: 0;
+      transition: opacity 0.4s;
+      pointer-events: none;
+    }
+
+    .p-card:hover::before { opacity: 0.3; }
+
+    .p-card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: #fff;
+    }
+
+    .p-card p {
+      color: var(--p-text-dim);
+      font-size: 0.95rem;
+    }
+
+    .p-card-icon {
+      width: 48px;
+      height: 48px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 2rem;
+      color: var(--p-accent);
+    }
+
+    /* Cybersecurity Section */
+    .p-section-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 3rem;
+      text-align: center;
+    }
+
+    .cyber-basics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .cyber-pill {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.05);
+      padding: 1.5rem;
+      border-radius: 16px;
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    /* Philosophy Section */
+    .p-philosophy {
+      margin: 8rem 0;
+      padding: 6rem;
+      background: linear-gradient(to right, rgba(79, 70, 229, 0.05), transparent);
+      border-radius: 40px;
+      border: 1px solid var(--p-border);
+      text-align: center;
+    }
+
+    .p-philosophy h2 { font-size: 3rem; margin-bottom: 2rem; }
+
+    .p-footer {
+      padding: 4rem 0;
+      text-align: center;
+      border-top: 1px solid var(--p-border);
+      color: var(--p-text-dim);
+    }
+
+    @media (max-width: 768px) {
+      .p-hero h1 { font-size: 2.5rem; }
+      .p-philosophy { padding: 3rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="p-container">
+    <nav class="p-nav">
+      <div class="p-logo" style="font-weight: 800; font-size: 1.2rem; letter-spacing: 2px;">PRIME ARC</div>
+      <div class="p-links">
+        <a href="/index.html?expanded=true">SHRINE</a>
+      </div>
+    </nav>
+
+    <header class="p-hero">
+      <span class="p-tag">The Tech Architect</span>
+      <h1>Designing Digital Sovereignty</h1>
+      <p>I build high-end, premium software solutions across multiple domains. My philosophy is rooted in technical excellence, absolute user privacy, and accessibility.</p>
+    </header>
+
+    <section id="cyber" style="padding: 4rem 0;">
+      <h2 class="p-section-title">Cybersecurity Foundations</h2>
+      <div class="cyber-basics-grid">
+        <div class="cyber-pill">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+          <div><strong>Network Security</strong> - Perimeter defense and encryption protocols.</div>
+        </div>
+        <div class="cyber-pill">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+          <div><strong>Identity Management</strong> - Zero-trust and multifactor rituals.</div>
+        </div>
+        <div class="cyber-pill">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+          <div><strong>Secure Code</strong> - Safeguarding against OWASP vulnerabilities.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="p-grid">
+      <div class="p-card">
+        <div class="p-card-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path></svg>
+        </div>
+        <h3>High-End Architecture</h3>
+        <p>Designing scalable, resilient infrastructures that power premium user experiences across different domains.</p>
+      </div>
+      <div class="p-card">
+        <div class="p-card-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+        </div>
+        <h3>Premium Free Apps</h3>
+        <p>I create premium-grade mobile and web applications that are 100% free, with zero advertisements and maximal performance.</p>
+      </div>
+      <div class="p-card">
+        <div class="p-card-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+        </div>
+        <h3>Multi-Domain Mastery</h3>
+        <p>A hobbyist's curiosity combined with an architect's discipline. Continuously learning and evolving technical landscapes.</p>
+      </div>
+    </section>
+
+    <section class="p-philosophy">
+      <h2>The Philosophy of PRIME</h2>
+      <p style="font-size: 1.5rem; color: #fff; margin-bottom: 2rem;">"Technology should serve the user without compromising their identity or their wallet."</p>
+      <div style="display: flex; justify-content: center; gap: 2rem; color: var(--p-accent); font-weight: 800; font-size: 0.8rem; letter-spacing: 2px;">
+        <span>NO ADS</span>
+        <span>NO COST</span>
+        <span>NO COMPROMISE</span>
+      </div>
+    </section>
+
+    <footer class="p-footer">
+      <p>&copy; 2026 Prime Arc Architecture. Building for the future.</p>
+    </footer>
+  </div>
+
+  <script>
+    // Reveal effects on scroll
+    const scrollHandler = () => {
+      const cards = document.querySelectorAll('.p-card, .p-philosophy, .cyber-pill');
+      cards.forEach(card => {
+        const rect = card.getBoundingClientRect();
+        if (rect.top < window.innerHeight * 0.9) {
+          card.style.opacity = '1';
+          card.style.transform = 'translateY(0)';
+        }
+      });
+    };
+
+    // Initial styles for animation
+    document.querySelectorAll('.p-card, .p-philosophy, .cyber-pill').forEach(card => {
+      card.style.opacity = '0';
+      card.style.transform = 'translateY(20px)';
+      card.style.transition = 'all 0.6s ease-out';
+    });
+
+    window.addEventListener('scroll', scrollHandler);
+    window.addEventListener('load', scrollHandler);
+  </script>
+</body>
+</html>
