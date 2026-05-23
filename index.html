@@ -21,23 +21,32 @@
   <!-- Custom Slash Cursor -->
   <div id="slash-cursor"></div>
 
+  <!-- Peaceful Blue Sky & Floating Clouds -->
+  <div id="intro-sky">
+    <div class="cloud cloud-1"></div>
+    <div class="cloud cloud-2"></div>
+    <div class="cloud cloud-3"></div>
+  </div>
+
   <div id="spider-container">
     <div class="spider-silk"></div>
+    
+    <!-- Main Spider (realistic dark brown/grey) -->
     <div class="spider">
       <div class="spider-svg-wrapper">
         <svg width="60" height="60" viewBox="0 0 100 100" class="spider-svg">
           <!-- Body -->
-          <ellipse cx="50" cy="65" rx="18" ry="22" fill="#0a0a0a" /> <!-- Abdomen -->
-          <circle cx="50" cy="40" r="12" fill="#000" /> <!-- Cephalothorax -->
+          <ellipse cx="50" cy="65" rx="18" ry="22" fill="#2d221c" stroke="#1c1410" stroke-width="1.5" /> <!-- Abdomen -->
+          <circle cx="50" cy="40" r="12" fill="#3d3028" stroke="#1c1410" stroke-width="1.5" /> <!-- Cephalothorax -->
           
-          <!-- Eyes (Sukuna themed) -->
-          <circle cx="46" cy="38" r="2" fill="#ff1e1e" />
-          <circle cx="54" cy="38" r="2" fill="#ff1e1e" />
-          <circle cx="48" cy="43" r="1.5" fill="#ff1e1e" />
-          <circle cx="52" cy="43" r="1.5" fill="#ff1e1e" />
+          <!-- Eyes -->
+          <circle cx="46" cy="38" r="1.5" fill="#000" />
+          <circle cx="54" cy="38" r="1.5" fill="#000" />
+          <circle cx="48" cy="43" r="1.2" fill="#000" />
+          <circle cx="52" cy="43" r="1.2" fill="#000" />
 
-          <!-- Legs (8 legs, jointed) -->
-          <g stroke="#000" stroke-width="4" fill="none" class="legs-group">
+          <!-- Legs -->
+          <g stroke="#3d3028" stroke-width="3" fill="none" class="legs-group">
             <!-- Left legs -->
             <path d="M40,40 Q20,20 5,45" class="leg" />
             <path d="M38,45 Q15,40 5,65" class="leg alt" />
@@ -52,17 +61,13 @@
           </g>
         </svg>
       </div>
-      <div class="web-dialogue-wrap">
-        <svg class="web-bg-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
-          <path d="M0,50 Q25,0 50,0 Q75,0 100,50 Q75,100 50,100 Q25,100 0,50" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.2)" stroke-width="0.5" />
-          <line x1="50" y1="0" x2="50" y2="100" stroke="rgba(255,255,255,0.1)" stroke-width="0.5" />
-          <line x1="0" y1="50" x2="100" y2="50" stroke="rgba(255,255,255,0.1)" stroke-width="0.5" />
-          <circle cx="50" cy="50" r="10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5" />
-          <circle cx="50" cy="50" r="25" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5" />
-        </svg>
-        <div class="spider-dialogue">To enter into my domain, pull the rope.</div>
-      </div>
     </div>
+
+    <!-- Dynamic Grass & Flowers Container -->
+    <div class="intro-grass-flowers"></div>
+
+    <!-- Fire Burning Canvas Overlay -->
+    <canvas id="fire-canvas"></canvas>
   </div>
 
   <!-- Initial Red Flash -->
@@ -74,14 +79,25 @@
     <canvas id="bg-particles"></canvas>
     <!-- The Video Animation -->
     <video id="domain-video" preload="auto" playsinline class="domain-video-element">
-      <source src="/domain_expansion.mp4" type="video/mp4">
+      <source src="/sukuna_mahoraga.mp4" type="video/mp4">
     </video>
     
     <!-- The Still Image (Shown after video) -->
     <div class="domain-img-wrapper" id="domain-wrapper" style="opacity: 0; transition: opacity 1.5s;">
+      <!-- Burning Sun -->
+      <div id="burning-sun" class="burning-sun"></div>
+      
       <img src="/domain_bg_updated.jpg" alt="Malevolent Shrine" class="domain-img base-img" id="shrine-img" />
       <img src="/domain_bg_updated.jpg" alt="Malevolent Shrine" class="domain-img reflection-img" id="shrine-reflection" />
+      
+      <!-- Sukuna Shadow -->
+      <img src="/sukuna_pose.png" id="sukuna-shadow" class="sukuna-shadow" />
     </div>
+    
+    <!-- Visual Targets for Slashing -->
+    <div id="target-left" class="cut-target left"></div>
+    <div id="target-right" class="cut-target right"></div>
+    
     <div class="domain-overlay"></div>
   </div>
 
@@ -109,11 +125,7 @@
         <a href="#about">Philosophy</a>
         <a href="/portfolio.html">Professional Portfolio</a>
         <a href="#apps" class="btn-primary mini">Conquer</a>
-        <!-- Music Toggle -->
-        <button id="bgm-toggle" class="bgm-control-btn" title="Toggle Music">
-          <svg class="sound-on" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
-          <svg class="sound-off" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;"><path d="M11 5L6 9H2v6h4l5 4V5z"></path><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
-        </button>
+
       </div>
     </nav>
 
@@ -205,7 +217,7 @@
         </div>
       </div>
       <div class="music-attribution">
-        Audio: "Gathering Darkness" & "Sukuna OST" by Kevin MacLeod / Various Artists
+        Audio: "Sukuna OST" by Kevin MacLeod / Various Artists
       </div>
       <p class="copyright">&copy; 2026 The Malevolent Entity. All rights reserved.</p>
     </footer>
