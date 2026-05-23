@@ -22,3 +22,11 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Android build artifacts
+*.apk
+*.aab
+*.keystore
+
+# Scratch / temp files
+scratch/

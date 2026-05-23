@@ -110,9 +110,12 @@ const initGrassAndFlowers = (container) => {
     container.appendChild(inner);
 
     const screenWidth = window.innerWidth;
+    const isMobile = screenWidth <= 768;
     
-    // Spawn layered grass blades
-    const numGrass = Math.ceil(screenWidth / 25) + 8;
+    // Spawn layered grass blades — fewer on mobile
+    const numGrass = isMobile
+      ? Math.ceil(screenWidth / 45) + 4
+      : Math.ceil(screenWidth / 25) + 8;
     for (let i = 0; i < numGrass; i++) {
         const x = (i / numGrass) * screenWidth + (Math.random() - 0.5) * 15;
         const height = 75 + Math.random() * 85;
@@ -328,12 +331,14 @@ const getButterflySVG = (species, uniqueId) => {
           <path d="M20,18 Q35,2 38,15 Q38,26 28,28 Q22,28 20,22 Z" fill="none" stroke="#000" stroke-width="2" />
           <path d="M20,20 Q30,25 32,32 Q30,38 24,36 Q20,32 20,22 Z" fill="none" stroke="#000" stroke-width="2" />
           <circle cx="30" cy="15" r="2.5" fill="#ffd700" stroke="#000" stroke-width="0.5" />
+            <path d="M30,15 L32,15" stroke="#ff0055" stroke-width="0.5" />
+          </circle>
           <circle cx="30" cy="15" r="1" fill="#ff0055" />
         `;
     }
 
     return `
-      <svg viewBox="0 0 40 40" width="38" height="38" style="filter: drop-shadow(0 3px 5px rgba(0,0,0,0.4))">
+      <svg viewBox="0 0 40 40" width="38" height="38">
         <defs>${grad}</defs>
         <g class="wing-left">${wingPathsLeft}</g>
         <g class="wing-right">${wingPathsRight}</g>
@@ -448,8 +453,10 @@ export const initInsectSimulation = () => {
         initGrassAndFlowers(grassContainer);
     }
 
-    // Spawn 10 butterflies
-    for (let i = 0; i < 10; i++) {
+    // Spawn butterflies — fewer on mobile to save CPU
+    const isMobile = window.innerWidth <= 768;
+    const butterflyCount = isMobile ? 5 : 10;
+    for (let i = 0; i < butterflyCount; i++) {
         spawnNewButterfly(container, false);
     }
 
@@ -861,6 +868,41 @@ let fireCanvas = null;
 let fireCtx = null;
 let fireAnimationId = null;
 
+let fireTextures = {
+    yellow: null,
+    orange: null,
+    red: null
+};
+
+const initFireTextures = () => {
+    if (fireTextures.yellow) return;
+    
+    const colors = {
+        yellow: { center: 'rgba(255, 255, 230, 1)', mid: 'rgba(255, 200, 50, 0.8)', edge: 'rgba(255, 100, 0, 0)' },
+        orange: { center: 'rgba(255, 180, 0, 1)', mid: 'rgba(255, 80, 0, 0.7)', edge: 'rgba(200, 0, 0, 0)' },
+        red: { center: 'rgba(255, 50, 0, 1)', mid: 'rgba(180, 0, 0, 0.6)', edge: 'rgba(100, 0, 0, 0)' }
+    };
+    
+    for (const [key, val] of Object.entries(colors)) {
+        const canvas = document.createElement('canvas');
+        canvas.width = 64;
+        canvas.height = 64;
+        const ctx = canvas.getContext('2d');
+        
+        const grad = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
+        grad.addColorStop(0, val.center);
+        grad.addColorStop(0.3, val.mid);
+        grad.addColorStop(1, val.edge);
+        
+        ctx.fillStyle = grad;
+        ctx.beginPath();
+        ctx.arc(32, 32, 32, 0, Math.PI * 2);
+        ctx.fill();
+        
+        fireTextures[key] = canvas;
+    }
+};
+
 class FireParticle {
     constructor(x, y, vx, vy, size, maxLife) {
         this.x = x;
@@ -873,11 +915,11 @@ class FireParticle {
         
         const rand = Math.random();
         if (rand < 0.25) {
-            this.color = { r: 255, g: 235, b: 120 }; // Bright Yellow-White center
+            this.type = 'yellow';
         } else if (rand < 0.7) {
-            this.color = { r: 255, g: 110, b: 0 };   // Intense Orange
+            this.type = 'orange';
         } else {
-            this.color = { r: 215, g: 25, b: 0 };    // Crimson Red edges
+            this.type = 'red';
         }
     }
 
@@ -890,24 +932,19 @@ class FireParticle {
 
     draw(ctx) {
         const ratio = this.life / this.maxLife;
-        ctx.beginPath();
+        const texture = fireTextures[this.type];
+        if (!texture) return;
         
-        const radGrad = ctx.createRadialGradient(
-            this.x, this.y, 0,
-            this.x, this.y, this.size
+        ctx.save();
+        ctx.globalAlpha = ratio * 0.85;
+        ctx.drawImage(
+            texture,
+            this.x - this.size,
+            this.y - this.size,
+            this.size * 2,
+            this.size * 2
         );
-        
-        const r = this.color.r;
-        const g = Math.max(0, this.color.g * ratio);
-        const a = ratio * 0.85;
-
-        radGrad.addColorStop(0, `rgba(${r}, ${g}, 0, ${a})`);
-        radGrad.addColorStop(0.35, `rgba(${r}, ${g * 0.4}, 0, ${a * 0.55})`);
-        radGrad.addColorStop(1, `rgba(${r}, 0, 0, 0)`);
-
-        ctx.fillStyle = radGrad;
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fill();
+        ctx.restore();
     }
 }
 
@@ -920,8 +957,9 @@ const updateFire = () => {
     const screenWidth = window.innerWidth;
     const screenHeight = window.innerHeight;
     
-    // Spawn fire particles at the bottom foliage
-    for (let i = 0; i < 15; i++) {
+    // Spawn fire particles at the bottom foliage (reduced count)
+    const spawnBottom = Math.random() < 0.5 ? 3 : 2;
+    for (let i = 0; i < spawnBottom; i++) {
         const px = Math.random() * screenWidth;
         const py = screenHeight - Math.random() * 50;
         const vx = (Math.random() - 0.5) * 1.6;
@@ -931,10 +969,10 @@ const updateFire = () => {
         fireParticles.push(new FireParticle(px, py, vx, vy, size, life));
     }
     
-    // Fire from butterflies
+    // Fire from butterflies (reduced count)
     butterflies.forEach(b => {
         if (b.isEaten) return;
-        for (let i = 0; i < 2; i++) {
+        if (Math.random() < 0.3) {
             const px = b.x + (Math.random() - 0.5) * 15;
             const py = b.y + (Math.random() - 0.5) * 15;
             const vx = (Math.random() - 0.5) * 0.8;
@@ -945,22 +983,20 @@ const updateFire = () => {
         }
     });
 
-    // Fire from yellow spider
-    if (yellowSpider.el) {
-        for (let i = 0; i < 3; i++) {
-            const px = yellowSpider.x + (Math.random() - 0.5) * 25;
-            const py = yellowSpider.y + (Math.random() - 0.5) * 25;
-            const vx = (Math.random() - 0.5) * 1.0;
-            const vy = -0.8 - Math.random() * 2.0;
-            const size = 10 + Math.random() * 18;
-            const life = 25 + Math.random() * 15;
-            fireParticles.push(new FireParticle(px, py, vx, vy, size, life));
-        }
+    // Fire from yellow spider (reduced count)
+    if (yellowSpider.el && Math.random() < 0.5) {
+        const px = yellowSpider.x + (Math.random() - 0.5) * 25;
+        const py = yellowSpider.y + (Math.random() - 0.5) * 25;
+        const vx = (Math.random() - 0.5) * 1.0;
+        const vy = -0.8 - Math.random() * 2.0;
+        const size = 10 + Math.random() * 18;
+        const life = 25 + Math.random() * 15;
+        fireParticles.push(new FireParticle(px, py, vx, vy, size, life));
     }
 
-    // Fire from roaming insects
+    // Fire from roaming insects (reduced count)
     roamingInsects.forEach(ins => {
-        for (let i = 0; i < 2; i++) {
+        if (Math.random() < 0.3) {
             const px = ins.x + (Math.random() - 0.5) * 20;
             const py = ins.y + (Math.random() - 0.5) * 20;
             const vx = (Math.random() - 0.5) * 0.8;
@@ -971,38 +1007,40 @@ const updateFire = () => {
         }
     });
 
-    // Fire from main black spider
+    // Fire from main black spider (reduced count)
     const mainSpiderEl = document.querySelector('.spider');
-    if (mainSpiderEl) {
+    if (mainSpiderEl && Math.random() < 0.5) {
         const rect = mainSpiderEl.getBoundingClientRect();
         const px = rect.left + rect.width / 2;
         const py = rect.top + rect.height / 2;
-        for (let i = 0; i < 3; i++) {
-            const spx = px + (Math.random() - 0.5) * 35;
-            const spy = py + (Math.random() - 0.5) * 35;
-            const vx = (Math.random() - 0.5) * 1.0;
-            const vy = -0.8 - Math.random() * 1.8;
-            const size = 11 + Math.random() * 18;
-            const life = 24 + Math.random() * 15;
-            fireParticles.push(new FireParticle(spx, spy, vx, vy, size, life));
-        }
+        const spx = px + (Math.random() - 0.5) * 35;
+        const spy = py + (Math.random() - 0.5) * 35;
+        const vx = (Math.random() - 0.5) * 1.0;
+        const vy = -0.8 - Math.random() * 1.8;
+        const size = 11 + Math.random() * 18;
+        const life = 24 + Math.random() * 15;
+        fireParticles.push(new FireParticle(spx, spy, vx, vy, size, life));
     }
 
-    // Fire from rope cursed-eye
+    // Fire from rope cursed-eye (reduced count)
     const ropeContainer = document.querySelector('.pull-rope-container');
-    if (ropeContainer) {
+    if (ropeContainer && Math.random() < 0.5) {
         const rect = ropeContainer.getBoundingClientRect();
         const px = rect.left + rect.width / 2;
         const py = rect.top + rect.height / 2;
-        for (let i = 0; i < 3; i++) {
-            const rpx = px + (Math.random() - 0.5) * 25;
-            const rpy = py + (Math.random() - 0.5) * 25;
-            const vx = (Math.random() - 0.5) * 0.8;
-            const vy = -0.6 - Math.random() * 1.5;
-            const size = 9 + Math.random() * 16;
-            const life = 20 + Math.random() * 18;
-            fireParticles.push(new FireParticle(rpx, rpy, vx, vy, size, life));
-        }
+        const rpx = px + (Math.random() - 0.5) * 25;
+        const rpy = py + (Math.random() - 0.5) * 25;
+        const vx = (Math.random() - 0.5) * 0.8;
+        const vy = -0.6 - Math.random() * 1.5;
+        const size = 9 + Math.random() * 16;
+        const life = 20 + Math.random() * 18;
+        fireParticles.push(new FireParticle(rpx, rpy, vx, vy, size, life));
+    }
+
+    // Cap particle count — lower limit on mobile to keep GPU happy
+    const MAX_PARTICLES = window.innerWidth <= 768 ? 120 : 350;
+    if (fireParticles.length > MAX_PARTICLES) {
+        fireParticles.splice(0, fireParticles.length - MAX_PARTICLES);
     }
 
     // Update and Draw particles
@@ -1028,6 +1066,8 @@ const resizeFireCanvas = () => {
 
 export const startFireBurn = () => {
     isBurningState = true;
+
+    initFireTextures();
 
     fireCanvas = document.getElementById('fire-canvas');
     if (fireCanvas) {

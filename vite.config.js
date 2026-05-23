@@ -21,7 +21,8 @@ export default defineConfig({
         main: resolve(__dirname, 'index.html'),
         auramax: resolve(__dirname, 'auramax.html'),
         foodlens: resolve(__dirname, 'foodlens.html'),
-        psira: resolve(__dirname, 'psira.html')
+        psira: resolve(__dirname, 'psira.html'),
+        portfolio: resolve(__dirname, 'portfolio.html')
       }
     }
   }
