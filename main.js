@@ -1,8 +1,8 @@
 import { initParticles } from './particles.js';
 import { initInsectSimulation, startFireBurn, stopFireBurn } from './insects.js';
 
-
-
+// --- Device Detection ---
+const isMobile = () => window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
 // --- State Management ---
 const state = {
@@ -36,9 +36,12 @@ const initPullRope = () => {
 
 
 
-        const domainVideo = document.getElementById('domain-video');
+        const domainVideo = isMobile() ? null : document.getElementById('domain-video');
         if (domainVideo && !state.videoUnlocked) {
             state.videoUnlocked = true;
+            if (!domainVideo.src) {
+                domainVideo.src = "/sukuna_mahoraga.mp4";
+            }
             domainVideo.load(); // Primes the engine during user interaction
         }
     };
@@ -97,6 +100,7 @@ const initPullRope = () => {
 
 const completeDomainTransition = () => {
     body.classList.remove('domain-video-playing');
+    body.classList.remove('shrine-dimmed');
     body.classList.add('domain-active');
 };
 
@@ -145,10 +149,14 @@ const triggerDomainExpansion = () => {
         // 1. Play Flash Effect
         flash.classList.add('active');
         
-        const domainVideo = document.getElementById('domain-video');
+        const domainVideo = isMobile() ? null : document.getElementById('domain-video');
         
         // Combine both Domain video sound and OST music immediately
         if (domainVideo) {
+            if (!domainVideo.src) {
+                domainVideo.src = "/sukuna_mahoraga.mp4";
+            }
+            domainVideo.muted = false;
             domainVideo.volume = 0.5;
             domainVideo.currentTime = 6.5; // Skip first 6.5 seconds
             
@@ -182,9 +190,10 @@ const triggerDomainExpansion = () => {
                 completeDomainTransition();
             };
         } else {
+            // For mobile: transition while the flash is at its peak opacity
             setTimeout(() => {
                 completeDomainTransition();
-            }, 1500); 
+            }, 500); 
         }
         
         // 3. Subtle camera shake entry (shrine landing)

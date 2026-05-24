@@ -75,8 +75,7 @@ body.domain-active .domain-bg-container {
 
 @media (max-width: 768px) {
   .domain-video-element {
-    object-fit: contain;
-    background: #000;
+    display: none !important;
   }
 }
 
@@ -360,17 +359,55 @@ section {
 }
 
 .hero-content h1 {
-  font-size: clamp(3rem, 10vw, 8rem);
-  font-weight: 800;
-  line-height: 0.9;
-  letter-spacing: -4px;
+  font-size: clamp(3rem, 8.5vw, 7.5rem);
+  font-weight: 900;
+  line-height: 0.95;
+  letter-spacing: -3px;
   margin-bottom: 2rem;
+  text-transform: uppercase;
+  position: relative;
+  text-shadow: 0 0 20px rgba(255, 30, 30, 0.4), 0 0 40px rgba(255, 30, 30, 0.1);
+  transition: transform 0.3s ease;
+  animation: malevolentPulse 4s ease-in-out infinite alternate;
+}
+
+.hero-content h1:hover {
+  transform: skewX(-3deg) scale(1.01);
+}
+
+.hero-content h1::after {
+  content: '';
+  position: absolute;
+  top: 52%;
+  left: -5%;
+  width: 110%;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #ff1e1e 20%, #ffffff 50%, #ff1e1e 80%, transparent);
+  transform: translateY(-50%) rotate(-3deg) scaleX(0);
+  transform-origin: center;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 0 15px rgba(255, 30, 30, 0.8);
+  pointer-events: none;
+}
+
+.hero-content h1:hover::after {
+  transform: translateY(-50%) rotate(-3deg) scaleX(1);
+}
+
+@keyframes malevolentPulse {
+  0% {
+    text-shadow: 0 0 25px rgba(255, 30, 30, 0.4), 0 0 50px rgba(255, 30, 30, 0.1);
+  }
+  100% {
+    text-shadow: 0 0 45px rgba(255, 30, 30, 0.7), 0 0 90px rgba(255, 80, 0, 0.4);
+  }
 }
 
 .gradient-text-alt {
-  background: linear-gradient(135deg, var(--primary), #fff);
+  background: linear-gradient(135deg, #ff1e1e 0%, #ff5e00 60%, #ffffff 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  display: inline-block;
 }
 
 .hero p {
@@ -733,7 +770,7 @@ section {
 
   /* Hero heading – fluid but not huge */
   .hero-content h1 {
-    font-size: clamp(2.2rem, 9vw, 4rem);
+    font-size: clamp(1.8rem, 8vw, 3.5rem);
     letter-spacing: -1px;
     line-height: 1;
     margin-bottom: 1.2rem;
@@ -797,8 +834,8 @@ section {
    ========================================== */
 @media (max-width: 480px) {
   .hero-content h1 {
-    font-size: clamp(1.9rem, 8vw, 2.8rem);
-    letter-spacing: 0;
+    font-size: clamp(1.6rem, 7.5vw, 2.4rem);
+    letter-spacing: -0.5px;
   }
 
   .hero p {
@@ -840,7 +877,7 @@ section {
   }
 
   .hero-content h1 {
-    font-size: clamp(1.7rem, 7.5vw, 2.2rem);
+    font-size: clamp(1.4rem, 7vw, 1.9rem);
   }
 
   .hero p {
