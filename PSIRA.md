@@ -16,8 +16,8 @@ PsiRa is engineered for environments where absolute privacy is required. It empl
 ## Technical Specifications
 
 - **Deployment Platform**: Android (APK)
-- **Application Size**: ~47MB
-- **Protocol**: Decentralized Shadow Protocol (v1.3.5)
+- **Application Size**: ~48MB
+- **Protocol**: Decentralized Shadow Protocol (v3.1.8)
 - **Security Standard**: Enterprise-grade Shadow Encryption
 
 ## Installation and Usage
